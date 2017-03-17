@@ -1,0 +1,59 @@
+﻿@model Busilac.ViewModels.CreateSalesOrderViewModel
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Supplier</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+            </p>
+            <div class="panel panel-default">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.MaterialsSalesOrders.MaterialSalesOrdersId)
+                <div class="panel-heading">
+                    <h4>Approve Sales Order</h4>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <strong>Date Ordered: </strong> @Model.MaterialsSalesOrders.OrderDate
+                    </p>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MaterialsSalesOrdersDetails)
+                                    {
+                                        <tr>
+                                            <td>@item.Materials.Name</td>
+                                            <td>@item.Materials.Type.TypeName</td>
+                                            <td>@item.Weight</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Approve" class="btn btn-success btn-sm pull-right" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

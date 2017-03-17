@@ -1,0 +1,61 @@
+﻿@model Busilac.ViewModels.CreateProductOrdersViewModels
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Client</h1>
+<hr />
+<p>
+    @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Order Products</h4>
+                </div>
+                <div class="panel-body">
+                    <h4>Order Details</h4>
+
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductSalesOrder.ClientName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.ProductSalesOrder.ClientName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProductSalesOrder.ClientName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <h4>Products</h4>
+                    <div class="col-md-6 col-md-offset-3">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ProductList.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>@Model.ProductList[i].Name</td>
+                                        <td>@Html.TextBoxFor(model => model.ProductSalesOrderDetails[i].Quantity, new { @class = "form-control", @Value = "0" })</td>
+                                        @Html.HiddenFor(model => model.ProductSalesOrderDetails[i].ProductId, new { @Value = Model.ProductList[i].ProductId })
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Submit" class="btn btn-success pull-right" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

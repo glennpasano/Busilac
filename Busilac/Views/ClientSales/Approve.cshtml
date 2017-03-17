@@ -1,0 +1,104 @@
+﻿@model Busilac.ViewModels.ApproveProductOrdersViewModels
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <style>
+        .alert.alert-danger {
+            display: block;
+            color: #fff;
+            font-size: 16px;
+        }
+    </style>
+}
+
+<h1>Client</h1>
+<hr />
+<p>
+    @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationMessage("Error", new { @class = "alert alert-danger" })
+            }
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Confirm Sales Order</h4>
+                </div>
+                <div class="panel-body">
+                    @Html.HiddenFor(model => model.ProductSalesOrder.ProductSalesOrdersId)
+                    <p>
+                        <strong>Date Requested: </strong> @Model.ProductSalesOrder.OrderDate
+                    </p>
+                    <p>
+                        <strong>Client: </strong> @Model.ProductSalesOrder.ClientName
+                    </p>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ProductSalesOrderDetails)
+                            {
+                                <tr>
+                                    <td>@item.Products.Name</td>
+                                    <td>@item.Quantity</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Approve" class="btn btn-success pull-right"/>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Current Inventory</h4>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Crtcl. Level</th>
+                        <th>Inventory</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ProductsInventory)
+                    {
+                        var className = "";
+                        var textClassName = "";
+
+                        if (item.Products.CriticalLevelQuantity > item.TotalProductCount)
+                        {
+                            className = "danger";
+                            textClassName = "text-danger";
+
+                        }
+
+                        <tr class="@className">
+                            <td>@item.Products.Name</td>
+                            <td>@item.Products.CriticalLevelQuantity</td>
+                            <td class="@textClassName">@item.TotalProductCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

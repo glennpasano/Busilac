@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Busilac.ViewModels.MaterialSalesOrdersListViewModel>
+
+@{
+    ViewBag.Title = "Sales Orders";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <style>
+        tr > th:nth-of-type(2),
+        td:nth-of-type(2) {
+            max-width: 300px;
+        }
+    </style>
+}
+
+<h1>Warehouse</h1>
+<hr />
+<p>
+    @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Material Sales Orders</h4>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>Materials</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.MaterialSalesOrders.OrderDate</td>
+                            <td>@item.MaterialsList</td>
+                            <td>@item.MaterialSalesOrders.MaterialsStatus.StatusName</td>
+                            <td>
+                                @if (item.MaterialSalesOrders.StatusId == 1002)
+                                {
+                                    // Don't show View button when item has already been delivered.
+                                    @Html.ActionLink("View", "ApproveDelivery", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,86 @@
+﻿@model Busilac.ViewModels.OrderedProductsApprovalViewModel
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Manufacturing</h1>
+<hr />
+<p>
+    @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="panel panel-default">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ProductManufactureOrders.ProductManufactureOrderId)
+                <div class="panel-heading">
+                    <h4>Approve Production Order</h4>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <strong>Date Requested: </strong> @Model.ProductManufactureOrders.RequestDate
+                    </p>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Materials Needed Per Order</th>
+                                        <th>Quantity</th>
+                                        <th>Total Required Materials</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ProductMaterials)
+                                    {
+                                        <tr>
+                                            <td>@item.Product.Name</td>
+                                            <td>@item.ProductMaterialsString</td>
+                                            <td>@item.QuantityOrdered</td>
+                                            <td>@item.ProductMaterialsStringTotals</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Approve" class="btn btn-success pull-right"/>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Materials Inventory</h4>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Type</th>
+                        <th>Inventory</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AvailableMaterialsViewModel)
+                    {
+                        <tr>
+                            <td>@item.Materials.Name</td>
+                            <td>@item.Materials.Type.TypeName</td>
+                            <td>@item.TotalInventoryCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

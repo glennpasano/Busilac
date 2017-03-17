@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Busilac.ViewModels.ProductOrdersListViewModel>
+@{
+    ViewBag.Title = "ManageProductionOrders";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Warehouse</h1>
+<hr />
+<p>
+    @Html.ActionLink("Create New", "CreateProductionOrder", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Production Orders
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Request Date</th>
+                        <th>Requested Products</th>
+                        <th>Status</th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProductManufactureOrders.RequestDate</td>
+                            <td>@item.ProductsList</td>
+                            <td>@item.ProductManufactureOrders.ProductStatus.StatusName</td>
+                            @*<td>
+                                @Html.ActionLink("View", "Approve", new { id = item.ProductManufactureOrders.ProductManufactureOrderId })
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

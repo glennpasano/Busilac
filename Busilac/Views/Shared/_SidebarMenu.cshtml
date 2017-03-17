@@ -1,0 +1,59 @@
+﻿<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+            <li>
+                @*<a><i class="fa fa-home"></i> Admin <span class="fa fa-chevron-down"></span></a>*@
+                <a> Admin <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Manage Materials", "Index", "Materials")</li>
+                    <li>@Html.ActionLink("Manage Products", "Index", "Products")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Sales <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Sales Orders", "Index", "Sales")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Warehouse <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Overview", "Index", "Warehouse")</li>
+                    <li>@Html.ActionLink("Materials Sales Orders", "MaterialSalesOrders", "Warehouse")</li>
+                    <li>@Html.ActionLink("Product Manufacture Orders", "ManageProductionOrders", "Warehouse")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Purchasing <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Materials Orders", "Index", "Purchasing")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Supplier <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Materials Orders", "Index", "Supplier")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Manufacturing <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Product Orders", "Index", "Manufacturing")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Client <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Buy Products", "Index", "Client")</li>
+                </ul>
+            </li>
+            <li>
+                <a> Client Sales <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>@Html.ActionLink("Manage Ordered Products", "Index", "ClientSales")</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

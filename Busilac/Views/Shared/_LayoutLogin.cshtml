@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Busilac</title>
+    @Styles.Render("~/Content/gentella_css")
+    @RenderSection("css", required: false)
+</head>
+<body class="login">
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/gentella_js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

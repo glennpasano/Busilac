@@ -1,0 +1,77 @@
+﻿@model Busilac.ViewModels.CreateSalesOrderViewModel
+
+@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Warehouse</h1>
+<hr />
+<p>
+    @Html.ActionLink("< Back", "MaterialSalesOrders", null, new { @class = "btn btn-default" })
+</p>
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="panel panel-default">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.MaterialsSalesOrders.MaterialSalesOrdersId)
+                <div class="panel-heading">
+                    <h4>Confirm Materials Delivery</h4>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <strong>Date Ordered: </strong> @Model.MaterialsSalesOrders.OrderDate
+                    </p>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Type</th>
+                                        <th>Weight</th>
+                                        <th>Actl. Weight Delivered</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.MaterialsSalesOrdersDetails.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.MaterialsSalesOrdersDetails[i].Materials.Name</td>
+                                            <td>@Model.MaterialsSalesOrdersDetails[i].Materials.Type.TypeName</td>
+                                            <td>@Model.MaterialsSalesOrdersDetails[i].Weight</td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.MaterialsSalesOrdersDetails[i].Weight,
+                                                                new { @Value = @Model.MaterialsSalesOrdersDetails[i].Weight,
+                                                                      @class = "form-control",
+                                                                      @type = "number"})
+                                            </td>
+                                            @Html.HiddenFor(model => model.MaterialsSalesOrdersDetails[i].Id, new { @Value = Model.MaterialsSalesOrdersDetails[i].Id})
+                                            @Html.HiddenFor(model => model.MaterialsSalesOrdersDetails[i].MaterialId, new { @Value = Model.MaterialsSalesOrdersDetails[i].MaterialId })
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Confirm" class="btn btn-success btn-sm pull-right" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <p>
+                    If <strong>Actual Weight Delivered</strong> doesn't match ordered weight, a new Sales Order containing the discrepancy will be sent back to Supplier.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Busilac.ViewModels.ProductViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Products</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-default" })
+        </p>
+        <div class="panel panel-default">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Products.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Products.CriticalLevelQuantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.BuildMaterialsList)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Products.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Products.CriticalLevelQuantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BuildMaterialsList)</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Products.ProductId }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Products.ProductId })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

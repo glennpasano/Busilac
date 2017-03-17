@@ -1,0 +1,56 @@
+﻿@model Busilac.ViewModels.CreateSalesOrderViewModel
+
+@{
+    ViewBag.Title = "CreateSalesOrderMaterials";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Sales Orders</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+            </p>
+            <div class="panel panel-default">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="panel-heading">
+                    <h4>New Sales Order</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.MaterialsList.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.MaterialsList[i].Name</td>
+                                            <td>@Model.MaterialsList[i].Type.TypeName</td>
+                                            <td>@Html.TextBoxFor(model => model.MaterialsSalesOrdersDetails[i].Weight, new { @Value = "0", @class = "form-control", @type = "number" })</td>
+                                            @Html.HiddenFor(model => model.MaterialsSalesOrdersDetails[i].MaterialId, new { @Value = Model.MaterialsList[i].MaterialId })
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Create" class="btn btn-success btn-sm pull-right"/>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
