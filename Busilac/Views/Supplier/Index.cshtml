@@ -39,7 +39,7 @@
                             <td>@item.MaterialsList</td>
                             <td>@item.MaterialSalesOrders.MaterialsStatus.StatusName</td>
                             <td>
-                                @if (item.MaterialSalesOrders.StatusId == 3)
+                                @if (item.MaterialSalesOrders.StatusId == 3 || item.MaterialSalesOrders.StatusId == 4)
                                 {
                                     @Html.ActionLink("View", "Approve", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId })
                                 }
