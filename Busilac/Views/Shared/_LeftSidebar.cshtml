@@ -14,11 +14,11 @@
                 <img src="~/images/default_profile.png" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-@if (Request.IsAuthenticated)
-{
-                <span>Welcome,</span>
-                <h2>@User.Identity.GetUserName()</h2>
-}
+                @if (Request.IsAuthenticated)
+                {
+                    <span>Welcome,</span>
+                    <h2>@User.Identity.GetUserName()</h2>
+                }
             </div>
         </div>
         <!-- /menu profile quick info -->
@@ -29,7 +29,7 @@
         @Html.Partial("_SidebarMenu")
         <!-- /sidebar menu -->
         <!-- /menu footer buttons -->
-        @Html.Partial("_MenuFooterButtons")
+        @*@Html.Partial("_MenuFooterButtons")*@
         <!-- /menu footer buttons -->
     </div>
 </div>

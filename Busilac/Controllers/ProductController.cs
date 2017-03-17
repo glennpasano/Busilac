@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Busilac.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

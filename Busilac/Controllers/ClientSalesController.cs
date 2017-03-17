@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Busilac.Controllers
 {
+    [Authorize(Roles = "ClientSales")]
     public class ClientSalesController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();

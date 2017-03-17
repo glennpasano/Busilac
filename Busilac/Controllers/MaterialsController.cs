@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Busilac.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MaterialsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
