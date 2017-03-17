@@ -207,7 +207,7 @@
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PurchasingController.cs" />
-    <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -4491,8 +4491,8 @@
     <Content Include="Views\Materials\Create.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Sales\CreateSalesOrderMaterials.cshtml" />
-    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Procurement\CreateSalesOrderMaterials.cshtml" />
+    <Content Include="Views\Procurement\Index.cshtml" />
     <Content Include="Views\Purchasing\Index.cshtml" />
     <Content Include="Views\Purchasing\Approve.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />

@@ -13,13 +13,13 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Sales"))
+            @if (User.IsInRole("Procurement"))
             {
 
                 <li>
-                    <a> Sales <span class="fa fa-chevron-down"></span></a>
+                    <a> Procurement <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li>@Html.ActionLink("Purchase Orders", "Index", "Sales")</li>
+                        <li>@Html.ActionLink("Purchase Orders", "Index", "Procurement")</li>
                     </ul>
                 </li>
             }
@@ -35,7 +35,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Purchasing"))
+            @if (User.IsInRole("Purchaser"))
             {
                 <li>
                     <a> Purchasing <span class="fa fa-chevron-down"></span></a>

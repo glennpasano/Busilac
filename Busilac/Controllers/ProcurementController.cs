@@ -8,8 +8,8 @@ using System.Web.Mvc;
 
 namespace Busilac.Controllers
 {
-    [Authorize(Roles = "Sales")]
-    public class SalesController : Controller
+    [Authorize(Roles = "Procurement")]
+    public class ProcurementController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Sales
