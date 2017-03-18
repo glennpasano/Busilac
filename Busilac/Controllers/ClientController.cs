@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Busilac.Controllers
 {
-    [Authorize(Roles = "Client")]
+    [Authorize(Roles = "Client, Admin")]
     public class ClientController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();

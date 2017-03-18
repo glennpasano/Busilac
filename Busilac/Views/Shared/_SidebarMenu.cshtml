@@ -13,7 +13,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Procurement"))
+            @if (User.IsInRole("Procurement") || User.IsInRole("Admin"))
             {
 
                 <li>
@@ -23,7 +23,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Warehouse"))
+            @if (User.IsInRole("Warehouse") || User.IsInRole("Admin"))
             {
 
                 <li>
@@ -35,7 +35,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Purchaser"))
+            @if (User.IsInRole("Purchaser") || User.IsInRole("Admin"))
             {
                 <li>
                     <a> Purchasing <span class="fa fa-chevron-down"></span></a>
@@ -44,7 +44,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Supplier"))
+            @if (User.IsInRole("Supplier") || User.IsInRole("Admin"))
             {
                 <li>
                     <a> Supplier <span class="fa fa-chevron-down"></span></a>
@@ -53,7 +53,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Manufacturing"))
+            @if (User.IsInRole("Manufacturing") || User.IsInRole("Admin"))
             {
                 <li>
                     <a> Manufacturing <span class="fa fa-chevron-down"></span></a>
@@ -62,7 +62,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Client"))
+            @if (User.IsInRole("Client") || User.IsInRole("Admin"))
             {
                 <li>
                     <a> Client <span class="fa fa-chevron-down"></span></a>
@@ -71,7 +71,7 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("ClientSales"))
+            @if (User.IsInRole("ClientSales") || User.IsInRole("Admin"))
             {
                 <li>
                     <a> Client Sales <span class="fa fa-chevron-down"></span></a>
