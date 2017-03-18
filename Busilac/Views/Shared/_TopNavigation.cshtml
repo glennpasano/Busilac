@@ -29,30 +29,18 @@
                 <li role="presentation" class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope-o"></i>
-                        @*<span class="badge bg-green">6</span>*@
+                        <span id="message-count" class="badge bg-green"></span>
                     </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                            <a>
-                                <span class="image"><img src="~/images/default_profile.png" alt="Profile Image" /></span>
-                                <span>
-                                    <span>John Smith</span>
-                                    <span class="time">3 mins ago</span>
-                                </span>
-                                <span class="message">
-                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                </span>
-                            </a>
-                        </li>
-                        <li style="padding: 10px;">
+                    <ul id="messages-menu" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        @*<li style="padding: 10px;" class="menu-buttons">
                             <div class="text-center">
                                 <a>
-                                    <strong>See All Alerts</strong>
+                                    <strong>See All Messages</strong>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             </div>
-                        </li>
-                        <li style="background-color: #1abb9c; cursor: pointer;" data-toggle="modal" data-target="#sendMessage" >
+                        </li>*@
+                        <li class="menu-buttons" style="background-color: #1abb9c; cursor: pointer;" data-toggle="modal" data-target="#sendMessageModal" >
                             <div class="text-center">
                                 <a style="color: #fff;">
                                     <strong>Compose</strong>

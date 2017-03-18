@@ -33,30 +33,107 @@
     @RenderSection("scripts", required: false)
     @if (Request.IsAuthenticated)
     {
+        var currUserId = User.Identity.GetUserId();
+
         <script>
+            var currentUserId = '@currUserId';
+
             $(document).ready(function () {
 
                 MessagesHandler.getMessages();
+                MessagesHandler.getRecipientList();
+
+                $('#send-message').on('click', function () {
+                    var that = this;
+                    $(that).prop('disabled', true); // so we don't double send
+
+                    MessagesHandler.sendMessage(function (data) {
+                        if (data.success) {
+                            // if successful, reset fields and close modal.
+                            MessagesHandler.getMessages();
+                            $(that).prop('disabled', false);
+                            $('#message-text').val('')
+                            $('#sendMessageModal').modal('hide');
+                        }
+                    });
+                });
+
+                $('li[role="presentation"]').on('click', function () {
+                    MessagesHandler.messageRead(function (data) {
+                        if (data.success) { $('#message-count').html('0'); }
+                    })
+                })
             })
 
             var MessagesHandler = {
 
-                getRecipientList: function() {
-
+                getRecipientList: function () {
+                    // populate message-to-list
+                    $.get('@Url.Action("GetRecipients", "Messages")', function (data) {
+                        console.log("got recipients");
+                        console.log(data);
+                        $.each(data, function (i, udata) {
+                            $('#message-to-list').append('<option value="' + udata.UserId + '">' + udata.UserName.capitalize() + '</option>');
+                        });
+                    });
                 },
 
                 getMessages: function () {
-                    $.get("@Url.Action("GetMessages", "Messages", new { userId = User.Identity.GetUserId() })", function (data) {
+                    $.get('@Url.Action("GetMessages", "Messages", new { userId = currUserId })', function (data) {
+                        $('#messages-menu li:not(.menu-buttons)').remove();
+                        var unreadCount = 0;
+                        $.each(data, function (i, msgd) {
+                            var msgObj = msgd.Message;
+                            var msgTemplate = '<li>' +
+                                                    '<a>' +
+                                                        '<span class="image"><img src="/images/default_profile.png" alt="Profile Image" /></span>' +
+                                                        '<span>' +
+                                                            '<span>' + msgObj.Sender.UserName + '</span>' +
+                                                            '<span class="time">' + msgd.TimeAgo + '</span>' +
+                                                        '</span>'+
+                                                        '<span class="message">' + msgObj.Message + '</span>' +
+                                                    '</a>'+
+                                              '</li>';
+
+                            $('#messages-menu').prepend(msgTemplate);
+
+                            if (msgObj.isRead == 0) {
+                                unreadCount++;
+                            }
+                        });
+
+                        if (unreadCount > 0) {
+                            $('#message-count').html(unreadCount).css('visibility', 'visible');
+                        } else {
+                            $('#message-count').html(unreadCount).css('visibility', 'hidden');
+                        }
                         console.log("got messages");
                         console.log(data);
                     });
                 },
 
-                sendMessage: function () {
+                sendMessage: function (callback) {
+                    var recipientId = $('#message-to-list').val();
+                    var msg = $('#message-text').val();
 
+                    var params = { senderId: currentUserId, recipientId: recipientId, message: msg };
+
+                    // message-text textarea
+                    $.post('@Url.Action("SendMessage", "Messages")', params)
+                        .done(function (data) {
+                            callback(data);
+                        });
+                },
+
+                messageRead: function (callback) {
+                    $.post('@Url.Action("MessagesRead", "Messages", new { userId = currUserId })').done(function (data) { callback(data); });
                 }
 
             }
+
+            String.prototype.capitalize = function () {
+                return this.replace(/(?:^|\s)\S/g, function (a) { return a.toUpperCase(); });
+            };
         </script>
     }
 </body>

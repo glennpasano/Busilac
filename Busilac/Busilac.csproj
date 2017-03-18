@@ -260,6 +260,7 @@
     <Compile Include="ViewModels\ClientViewModels.cs" />
     <Compile Include="ViewModels\ManufacturingViewModels.cs" />
     <Compile Include="ViewModels\MaterialsViewModels.cs" />
+    <Compile Include="ViewModels\MessagesViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels.cs" />
     <Compile Include="ViewModels\SalesViewModels.cs" />
     <Compile Include="ViewModels\WarehouseViewModels.cs" />
