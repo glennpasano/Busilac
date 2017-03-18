@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -26,9 +27,37 @@
             <!-- /footer content -->
         </div>
     </div>
-
+    @Html.Partial("_SendMessage")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/gentella_js")
     @RenderSection("scripts", required: false)
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+            $(document).ready(function () {
+
+                MessagesHandler.getMessages();
+            })
+
+            var MessagesHandler = {
+
+                getRecipientList: function() {
+
+                },
+
+                getMessages: function () {
+                    $.get("@Url.Action("GetMessages", "Messages", new { userId = User.Identity.GetUserId() })", function (data) {
+                        console.log("got messages");
+                        console.log(data);
+                    });
+                },
+
+                sendMessage: function () {
+
+                }
+
+            }
+        </script>
+    }
 </body>
 </html>

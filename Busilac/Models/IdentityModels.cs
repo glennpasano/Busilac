@@ -46,5 +46,7 @@ namespace Busilac.Models
         public DbSet<ProductSalesOrders> ProductSalesOrders { get; set; }
         public DbSet<ProductSalesOrderDetails> ProductSalesOrderDetails { get; set; }
         public DbSet<ProductStatus> ProductStatus { get; set; }
+        public DbSet<Messages> Messages { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
     }
 }

@@ -205,6 +205,8 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManufacturingController.cs" />
     <Compile Include="Controllers\MaterialsController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PurchasingController.cs" />
     <Compile Include="Controllers\ProcurementController.cs" />
@@ -236,6 +238,14 @@
     <Compile Include="Migrations\201703121627131_AddedRequiredFieldsProducts.cs" />
     <Compile Include="Migrations\201703121627131_AddedRequiredFieldsProducts.Designer.cs">
       <DependentUpon>201703121627131_AddedRequiredFieldsProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703180904586_IncludedNotificationsAndMessages.cs" />
+    <Compile Include="Migrations\201703180904586_IncludedNotificationsAndMessages.Designer.cs">
+      <DependentUpon>201703180904586_IncludedNotificationsAndMessages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703180917214_AddedRecipientIdToMessages.cs" />
+    <Compile Include="Migrations\201703180917214_AddedRecipientIdToMessages.Designer.cs">
+      <DependentUpon>201703180917214_AddedRecipientIdToMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -4508,10 +4518,13 @@
     <Content Include="Views\Client\Create.cshtml" />
     <Content Include="Views\ClientSales\Index.cshtml" />
     <Content Include="Views\ClientSales\Approve.cshtml" />
+    <Content Include="Views\Shared\_SendMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminPage\" />
+    <Folder Include="Views\Messages\" />
+    <Folder Include="Views\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -4545,6 +4558,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703121627131_AddedRequiredFieldsProducts.resx">
       <DependentUpon>201703121627131_AddedRequiredFieldsProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703180904586_IncludedNotificationsAndMessages.resx">
+      <DependentUpon>201703180904586_IncludedNotificationsAndMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703180917214_AddedRecipientIdToMessages.resx">
+      <DependentUpon>201703180917214_AddedRecipientIdToMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
