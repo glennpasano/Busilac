@@ -18,19 +18,15 @@ namespace Busilac.Controllers
             return View();
         }
 
-        //public JsonResult SendMessage(string senderId, string recipientId)
-        //{
-
-        //}
-
         public JsonResult GetMessages(string userId)
         {
             IEnumerable<MessageDisplayViewModel> MessageList =
                         db.Messages.Where(m => m.isVoid == 0 && m.RecipientId == userId).ToList()
+                          .OrderByDescending(m => m.Timestamp)
                           .Select(m => new MessageDisplayViewModel {
                               Message = m,
                               TimeAgo = TimeAgo(m.Timestamp)
-                          }).Take(5).ToList();
+                          }).Take(5).Reverse().ToList();
 
             return Json(MessageList, JsonRequestBehavior.AllowGet);
         }
@@ -85,7 +81,7 @@ namespace Busilac.Controllers
 
         // Helpers
 
-        public static string TimeAgo(DateTime dt)
+        private static string TimeAgo(DateTime dt)
         {
             TimeSpan span = DateTime.Now - dt;
             if (span.Days > 365)

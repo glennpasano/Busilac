@@ -43,6 +43,8 @@
                 MessagesHandler.getMessages();
                 MessagesHandler.getRecipientList();
 
+                NotificationsHandler.getNotifications();
+
                 $('#send-message').on('click', function () {
                     var that = this;
                     $(that).prop('disabled', true); // so we don't double send
@@ -58,12 +60,61 @@
                     });
                 });
 
-                $('li[role="presentation"]').on('click', function () {
+                $('.message-dropdown').on('click', function () {
                     MessagesHandler.messageRead(function (data) {
                         if (data.success) { $('#message-count').html('0'); }
                     })
-                })
+                });
+
+                $('.alert-dropdown').on('click', function () {
+                    NotificationsHandler.notificationRead(function (data) {
+                        if (data.success) { $('#alert-count').html('0'); }
+                    })
+                });
             })
+
+            var NotificationsHandler = {
+
+                getNotifications: function () {
+                    $.get('@Url.Action("GetNotifications", "Notifications", new { userId = currUserId })', function (data) {
+                        var unreadCount = 0;
+
+                        if (data.length) {
+                            $('#alert-menu li').remove();
+                        }
+                        
+                        $.each(data, function (i, msgd) {
+                            var msgObj = msgd.Notification;
+                            var msgTemplate = '<li>' +
+                                '<a>' +
+                                '<span>' +
+                                '<span></span>' +
+                                '<span class="time">' + msgd.TimeAgo + '</span>' +
+                                '</span>' +
+                                '<span class="message">' + msgObj.NotificationMessage + '</span>' +
+                                '</a>' +
+                                '</li>';
+
+                            $('#alert-menu').prepend(msgTemplate);
+
+                            if (msgObj.isRead == 0) {
+                                unreadCount++;
+                            }
+                        });
+                        console.log(unreadCount);
+                        if (unreadCount > 0) {
+                            $('#alert-count').html(unreadCount).css('visibility', 'visible');
+                        } else {
+                            $('#alert-count').html(unreadCount).css('visibility', 'hidden');
+                        }
+                    });
+                },
+
+                notificationRead: function (callback) {
+                    $.post('@Url.Action("NotificationsRead", "Notifications", new { userId = currUserId })').done(function (data) { callback(data); });
+                }
+
+            }
 
             var MessagesHandler = {
 
@@ -107,8 +158,6 @@
                         } else {
                             $('#message-count').html(unreadCount).css('visibility', 'hidden');
                         }
-                        console.log("got messages");
-                        console.log(data);
                     });
                 },
 

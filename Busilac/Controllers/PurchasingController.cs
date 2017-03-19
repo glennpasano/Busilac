@@ -1,5 +1,6 @@
 ﻿using Busilac.Models;
 using Busilac.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Busilac.Controllers
     public class PurchasingController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        NotificationsController notification = new NotificationsController();
         // GET: Purchasing
         public ActionResult Index()
         {
@@ -56,6 +58,23 @@ namespace Busilac.Controllers
             if(mso != null)
             {
                 mso.StatusId = 3; // On Approval; Changed to "Sent to supplier" status
+
+                // Notify and Email Supplier
+                // Find all Suppliers
+                var suppliers = db.Roles.Where(m => m.Name == "Supplier").ToList();
+
+                foreach (var item in suppliers)
+                {
+                    foreach (var user in item.Users)
+                    {
+                        notification.NotifyUser(new Notifications
+                        {
+                            NotificationMessage = "New Purchase Order has been assigned to you.",
+                            UserId = user.UserId
+                        });
+                    }
+                }
+
                 db.SaveChanges();
             }
 

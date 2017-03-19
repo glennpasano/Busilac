@@ -26,7 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201703180917214_AddedRecipientIdToMessages.Designer.cs">
       <DependentUpon>201703180917214_AddedRecipientIdToMessages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703191213013_ChangeNotificationUserIdType.cs" />
+    <Compile Include="Migrations\201703191213013_ChangeNotificationUserIdType.Designer.cs">
+      <DependentUpon>201703191213013_ChangeNotificationUserIdType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -261,6 +265,7 @@
     <Compile Include="ViewModels\ManufacturingViewModels.cs" />
     <Compile Include="ViewModels\MaterialsViewModels.cs" />
     <Compile Include="ViewModels\MessagesViewModel.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels.cs" />
     <Compile Include="ViewModels\SalesViewModels.cs" />
     <Compile Include="ViewModels\WarehouseViewModels.cs" />
@@ -4565,6 +4570,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703180917214_AddedRecipientIdToMessages.resx">
       <DependentUpon>201703180917214_AddedRecipientIdToMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703191213013_ChangeNotificationUserIdType.resx">
+      <DependentUpon>201703191213013_ChangeNotificationUserIdType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

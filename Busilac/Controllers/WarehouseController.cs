@@ -12,6 +12,7 @@ namespace Busilac.Controllers
     public class WarehouseController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        NotificationsController notification = new NotificationsController();
 
         public ActionResult Index()
         {
@@ -162,12 +163,28 @@ namespace Busilac.Controllers
                 db.ProductManufactureOrderDetails.Add(pmod);
             }
 
+            // Notify and Email Supplier
+            // Find all Suppliers
+            var suppliers = db.Roles.Where(m => m.Name == "Manufacturing").ToList();
+
+            foreach (var item in suppliers)
+            {
+                foreach (var user in item.Users)
+                {
+                    notification.NotifyUser(new Notifications
+                    {
+                        NotificationMessage = "New Production Order has been assigned to you.",
+                        UserId = user.UserId
+                    });
+                }
+            }
+
             db.SaveChanges();
 
             return RedirectToAction("ManageProductionOrders");
         }
 
-        // Helpers
+        #region Helpers
 
         private CreateProductOrdersViewModel CreateProductOrderViewModelData(CreateProductOrdersViewModel createProductsVM)
         {
@@ -272,6 +289,7 @@ namespace Busilac.Controllers
                 db.SaveChanges();
             }
         }
+    #endregion
 
     }
 }

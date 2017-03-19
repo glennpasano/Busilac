@@ -10,7 +10,9 @@ namespace Busilac.Models
     {
         [Key]
         public int NotificationId { get; set; }
-        public int UserId { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [Required]
         public string NotificationMessage { get; set; }
         public int isRead { get; set; }
         public int isVoid { get; set; }
