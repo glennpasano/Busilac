@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,6 +15,7 @@ namespace Busilac.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         NotificationsController notification = new NotificationsController();
+        EmailController email = new EmailController();
         // GET: Purchasing
         public ActionResult Index()
         {
@@ -49,7 +51,7 @@ namespace Busilac.Controllers
         }
 
         [HttpPost]
-        public ActionResult Approve(CreateSalesOrderViewModel csovm)
+        public async Task<ActionResult> Approve(CreateSalesOrderViewModel csovm)
         {
             // csovm.MaterialsSalesOrders.MaterialSalesOrdersId;
 
@@ -59,7 +61,7 @@ namespace Busilac.Controllers
             {
                 mso.StatusId = 3; // On Approval; Changed to "Sent to supplier" status
 
-                // Notify and Email Supplier
+                // Notify Supplier
                 // Find all Suppliers
                 var suppliers = db.Roles.Where(m => m.Name == "Supplier").ToList();
 
@@ -76,9 +78,30 @@ namespace Busilac.Controllers
                 }
 
                 db.SaveChanges();
+
+                // Email Supplier
+                string[] toList = new string[] { "busilac@outlook.com", "glennmatthewpasano@gmail.com" };
+                await email.SendEmailAsync(toList, EmailTemplate(csovm), string.Format("Production Order"));
             }
 
             return RedirectToAction("Index");
+        }
+
+        private string EmailTemplate(CreateSalesOrderViewModel csovm)
+        {
+            string finalString = "<table border='1' width='420px'><tr><td colspan='3'><strong>Date Ordered:</strong> {0}</td></tr><tr style='text-align: center;'><th>Material</th><th>Type</th><th>Weight</th></tr>{1}</table>";
+            string tableContent = "";
+
+            var prodSalesOrder = db.MaterialsSalesOrders.First(m => m.MaterialSalesOrdersId == csovm.MaterialsSalesOrders.MaterialSalesOrdersId);
+
+            var date = prodSalesOrder.OrderDate.ToShortDateString();
+
+            foreach (var item in db.MaterialsSalesOrdersDetails.Where(m => m.MaterialSalesOrdersId == prodSalesOrder.MaterialSalesOrdersId).ToList())
+            {
+                tableContent += string.Format("<tr style='text-align: center;'><td>{0}</td><td>{1}</td><td>{2}</td></tr>", item.Materials.Name, item.Materials.Type.TypeName, item.Weight);
+            }
+
+            return string.Format(finalString, date, tableContent);
         }
     }
 }
