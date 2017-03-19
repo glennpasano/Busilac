@@ -65,7 +65,7 @@
             @if (User.IsInRole("ClientSales") || User.IsInRole("Admin") || User.IsInRole("Sales"))
             {
                 <li>
-                    <a> Client Sales <span class="fa fa-chevron-down"></span></a>
+                    <a> Sales Personnel <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>@Html.ActionLink("Order Products", "Index", "Client")</li>
                         <li>@Html.ActionLink("Manage Ordered Products", "Index", "ClientSales")</li>

@@ -69,7 +69,40 @@ namespace Busilac.Controllers
             return RedirectToAction("Index");
         }
 
-        // Todo: Edit Products
+        // Todo: Edit 
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var createProductViewModel = new CreateProductsViewModel();
+            createProductViewModel.Products = db.Products.Where(m => m.ProductId == id).First();
+            createProductViewModel.ProductBuildMaterials = db.ProductBuildMaterials.Where(m => m.ProductId == id).ToList();
+            createProductViewModel.MaterialsList = db.Materials.Where(m => m.isVoid == 0).ToList();
+
+            return View(createProductViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CreateProductsViewModel createProductsViewModel)
+        {
+            var product = new Products();
+
+            product = createProductsViewModel.Products;
+            db.Products.Add(product);
+
+            foreach (var item in createProductsViewModel.ProductBuildMaterials.Where(m => m.Quantity > 0))
+            {
+                var pbm = new ProductBuildMaterials();
+                pbm.Products = product;
+                pbm.MaterialId = item.MaterialId;
+                pbm.Quantity = item.Quantity;
+
+                db.ProductBuildMaterials.Add(pbm);
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
         // Todo: Delete Products
 

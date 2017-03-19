@@ -1,0 +1,64 @@
+﻿@model Busilac.ViewModels.CreateMaterialsViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Materials</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+            </p>
+            @Html.HiddenFor(model => model.Material.MaterialId)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Edit Material</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TypesList, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Material.TypeId, new SelectList(Model.TypesList, "Id", "TypeName"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Material.TypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Material.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Material.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Material.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.Material.isVoid, new { value = "0" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Material.CostPerWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Material.CostPerWeight, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Material.CostPerWeight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Material.CriticalLevelWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Material.CriticalLevelWeight, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Material.CriticalLevelWeight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Create" class="btn btn-success btn-sm pull-right" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

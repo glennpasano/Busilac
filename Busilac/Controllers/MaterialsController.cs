@@ -2,6 +2,7 @@
 using Busilac.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,6 +40,27 @@ namespace Busilac.Controllers
         }
 
         // Todo: Edit ActionResults
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            CreateMaterialsViewModel createMaterialViewModel = new CreateMaterialsViewModel();
+            createMaterialViewModel.Material = db.Materials.Where(m => m.MaterialId == id).First();
+            createMaterialViewModel.TypesList = db.MaterialType.ToList();
+
+            return View(createMaterialViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CreateMaterialsViewModel createdMaterialsViewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(createdMaterialsViewModel.Material).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
 
         // Todo: Delete ActionResults
 

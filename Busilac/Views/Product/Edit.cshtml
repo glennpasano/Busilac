@@ -1,0 +1,93 @@
+﻿@model Busilac.ViewModels.CreateProductsViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section styles {
+    <style>
+        table.table {
+            width: auto;
+            min-width: 500px;
+            margin: 0 auto;
+        }
+
+        table > thead tr th:last-of-type,
+        table > tbody tr td:last-of-type {
+            max-width: 60px;
+        }
+
+        .panel-body h4 {
+            margin-bottom: 20px;
+            border-bottom: 1px solid;
+        }
+    </style>
+}
+
+<h1>Products</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(model => model.Products.ProductId)
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.ActionLink("< Back", "Index", null, new { @class = "btn btn-default" })
+            </p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Edit Product</h4>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <h4>Product Details</h4>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Products.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.Products.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Products.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Products.CriticalLevelQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.Products.CriticalLevelQuantity, new { @class = "form-control", @type = "number", @Value = "0" })
+                                @Html.ValidationMessageFor(model => model.Products.CriticalLevelQuantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.Products.isVoid, htmlAttributes: new { @Value = "0" })
+                    </div>
+                    <br />
+                    <h4>Materials Used</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.MaterialsList.Count(); i++)
+                            {
+                                <tr>
+                                    <td>@Model.MaterialsList[i].Name</td>
+                                    <td>@Model.MaterialsList[i].Type.TypeName</td>
+                                    <td>@Html.TextBoxFor(model => model.ProductBuildMaterials[i].Quantity, new { @class = "form-control", @type = "number", @Value = "0" })</td>
+                                    @Html.HiddenFor(model => model.ProductBuildMaterials[i].MaterialId, new { @Value = Model.MaterialsList[i].MaterialId })
+                                    @Html.HiddenFor(model => model.ProductBuildMaterials[i].Id, new { @Value = Model.MaterialsList[i].MaterialId })
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer clearfix">
+                    <input type="submit" value="Create" class="btn btn-success btn-sm pull-right" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
