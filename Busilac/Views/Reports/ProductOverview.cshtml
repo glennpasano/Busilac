@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Busilac.ViewModels.SoldProductsReportViewModel>
+@{
+    ViewBag.Title = "ProductOverview";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+<h1>Total Products Sold</h1>
+<h5><small>as of @DateTime.Now</small></h5>
+<hr />
+<p class="hidden-print">
+    @Html.ActionLink("< Back", "Index", "Home", null, new { @class= "btn btn-default btn-sm" })
+    <button onclick="window.print();" class="btn btn-sm btn-default">Print</button>
+</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ordered Date</th>
+            <th>Client</th>
+            <th>Product</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DateOrdered</td>
+                <td>@item.ClientName</td>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

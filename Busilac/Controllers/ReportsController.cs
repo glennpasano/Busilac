@@ -17,6 +17,40 @@ namespace Busilac.Controllers
             return View();
         }
 
+        public ActionResult ProductOverview()
+        {
+            var viewData = db.ProductSalesOrderDetails
+                .Join(db.ProductSalesOrderDetails, pso => pso.ProductSalesOrdersId,
+                            psod => psod.ProductSalesOrdersId, (pso, psod) => new { pso, psod })
+                .Where(m => m.pso.ProductSalesOrdersId == m.psod.ProductSalesOrdersId).ToList()
+                .Select(m => new SoldProductsReportViewModel
+                {
+                    ProductName = m.psod.Products.Name,
+                    Quantity = m.psod.Quantity.ToString(),
+                    ClientName = m.pso.ProductSalesOrders.ClientName,
+                    DateOrdered = m.pso.ProductSalesOrders.OrderDate.ToShortDateString()
+                }).ToList();
+
+            return View(viewData);
+        }
+
+        public ActionResult MaterialsOverview()
+        {
+            var viewData = db.MaterialsSalesOrders
+                .Join(db.MaterialsSalesOrdersDetails, mo => mo.MaterialSalesOrdersId,
+                            mod => mod.MaterialSalesOrdersId, (mo, mod) => new { mo, mod })
+                .Where(m => m.mo.MaterialSalesOrdersId == m.mod.MaterialSalesOrdersId).ToList()
+                .Select(m => new OrderedMaterialsReportViewModel
+                {
+                    OrderedDate = m.mo.OrderDate.ToShortDateString(),
+                    MaterialName = m.mod.Materials.Name,
+                    MaterialType = m.mod.Materials.Type.TypeName,
+                    Weight = m.mod.Weight
+                }).ToList();
+
+            return View(viewData);
+        }
+
 
         public JsonResult OrderedMaterialsChartData()
         {

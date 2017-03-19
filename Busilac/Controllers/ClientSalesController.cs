@@ -9,10 +9,12 @@ using System.Web.Mvc;
 namespace Busilac.Controllers
 {
     [Authorize(Roles = "ClientSales, Admin")]
+    [RoutePrefix("Sales")]
     public class ClientSalesController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: ClientSales
+        [Route("ManageOrderedProducts")]
         public ActionResult Index()
         {
             var covm = new List<ClientOrdersViewModels>();

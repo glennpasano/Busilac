@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Busilac</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+</body>
+</html>

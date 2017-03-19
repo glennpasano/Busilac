@@ -13,7 +13,6 @@ namespace Busilac.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Sales
-        [Route("[controller]/Materials/SalesOrders")]
         public ActionResult Index()
         {
             var msolvm = new List<MaterialSalesOrdersListViewModel>();
@@ -36,7 +35,6 @@ namespace Busilac.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/Materials/SalesOrders/Create")]
         public ActionResult CreateSalesOrderMaterials()
         {
             CreateSalesOrderViewModel createSalesOrderViewModel = new CreateSalesOrderViewModel();
@@ -46,7 +44,6 @@ namespace Busilac.Controllers
         }
 
         [HttpPost]
-        [Route("[controller]/Materials/SalesOrders/Create")]
         public ActionResult CreateSalesOrderMaterials(CreateSalesOrderViewModel csovm)
         {
             MaterialsSalesOrders mso = new MaterialsSalesOrders();

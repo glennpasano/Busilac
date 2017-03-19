@@ -9,7 +9,7 @@
                     <a> Admin <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li>@Html.ActionLink("Manage Materials", "Index", "Materials")</li>
-                        <li>@Html.ActionLink("Manage Products", "Index", "Products")</li>
+                        <li>@Html.ActionLink("Manage Products", "Index", "Product")</li>
                     </ul>
                 </li>
             }
@@ -29,8 +29,8 @@
                 <li>
                     <a> Warehouse <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li>@Html.ActionLink("Overview", "Index", "Warehouse")</li>
-                        <li>@Html.ActionLink("Materials Sales Orders", "MaterialSalesOrders", "Warehouse")</li>
+                        <li>@Html.ActionLink("Inventory Overview", "Index", "Warehouse")</li>
+                        <li>@Html.ActionLink("Materials Purchases", "MaterialSalesOrders", "Warehouse")</li>
                         <li>@Html.ActionLink("Product Manufacture Orders", "ManageProductionOrders", "Warehouse")</li>
                     </ul>
                 </li>
@@ -62,20 +62,12 @@
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Client") || User.IsInRole("Admin"))
-            {
-                <li>
-                    <a> Client <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li>@Html.ActionLink("Buy Products", "Index", "Client")</li>
-                    </ul>
-                </li>
-            }
-            @if (User.IsInRole("ClientSales") || User.IsInRole("Admin"))
+            @if (User.IsInRole("ClientSales") || User.IsInRole("Admin") || User.IsInRole("Sales"))
             {
                 <li>
                     <a> Client Sales <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                        <li>@Html.ActionLink("Order Products", "Index", "Client")</li>
                         <li>@Html.ActionLink("Manage Ordered Products", "Index", "ClientSales")</li>
                     </ul>
                 </li>

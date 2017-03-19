@@ -4532,6 +4532,9 @@
     <Content Include="Views\ClientSales\Index.cshtml" />
     <Content Include="Views\ClientSales\Approve.cshtml" />
     <Content Include="Views\Shared\_SendMessage.cshtml" />
+    <Content Include="Views\Reports\ProductOverview.cshtml" />
+    <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\Reports\MaterialsOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4539,7 +4542,6 @@
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Messages\" />
     <Folder Include="Views\Notifications\" />
-    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
