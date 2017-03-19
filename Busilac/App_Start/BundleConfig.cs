@@ -38,6 +38,7 @@ namespace Busilac
                       "~/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css",
                       "~/vendors/jqvmap/dist/jqvmap.min.css",
                       "~/vendors/bootstrap-daterangepicker/daterangepicker.css",
+                      "~/Content/morris.css",
                       "~/Content/custom.css",
                       "~/Content/custom-project.css"));
 
@@ -65,6 +66,8 @@ namespace Busilac
                       "~/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js",
                       "~/vendors/moment/min/moment.min.js",
                       "~/vendors/bootstrap-daterangepicker/daterangepicker.js",
+                       "~/Scripts/raphael.js",
+                      "~/Scripts/morris.min.js",
                       "~/Scripts/custom.js"));
         }
     }

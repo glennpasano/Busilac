@@ -11,9 +11,26 @@ namespace Busilac.ViewModels
     {
     }
 
-    public class OrderedMaterialsViewModel
+    public class OrderedMaterialsReportViewModel
     {
-        public int MyProperty { get; set; }
+        public string OrderedDate { get; set; }
+        public string MaterialName { get; set; }
+        public string MaterialType { get; set; }
+        public decimal Weight { get; set; }
+    }
+
+    public class SoldProductsReportViewModel
+    {
+        public string DateOrdered { get; set; }
+        public string ClientName { get; set; }
+        public string ProductName { get; set; }
+        public string Quantity { get; set; }
+    }
+
+    public class DonutChartViewModel
+    {
+        public string label { get; set; }
+        public int value { get; set; }
     }
 
 }

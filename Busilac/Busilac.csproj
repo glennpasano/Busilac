@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PurchasingController.cs" />
     <Compile Include="Controllers\ProcurementController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -269,6 +270,7 @@
     <Compile Include="ViewModels\MessagesViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels.cs" />
+    <Compile Include="ViewModels\ReportViewModels.cs" />
     <Compile Include="ViewModels\SalesViewModels.cs" />
     <Compile Include="ViewModels\WarehouseViewModels.cs" />
   </ItemGroup>
@@ -278,6 +280,7 @@
     <Content Include="Content\custom-project.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\custom.min.css" />
+    <Content Include="Content\morris.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -299,6 +302,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\morris.min.js" />
+    <Content Include="Scripts\raphael.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -4534,6 +4539,7 @@
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Messages\" />
     <Folder Include="Views\Notifications\" />
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

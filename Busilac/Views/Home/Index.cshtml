@@ -3,7 +3,7 @@
 }
 
 
-<!-- top tiles -->
+@*<!-- top tiles -->
 <div class="row tile_count">
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
@@ -36,9 +36,103 @@
         <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
     </div>
 </div>
-<!-- /top tiles -->
+<!-- /top tiles -->*@
 
+<h1>Product Overview</h1>
+<hr />
+<p>@Html.ActionLink("View Report", "Reports", "Reports", null, new { @class = "btn btn-default btn-sm" })</p>
 <div class="row">
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title"><h4>Total Products Sold</h4></div>
+            <div class="x_content">
+                <div id="products-bar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title"><h4>Manufactured Products Ratio</h4></div>
+            <div class="x_content">
+                <div id="products-piechart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h1>Materials Overview</h1>
+<hr />
+<p>@Html.ActionLink("View Report", "Reports", "Reports", null, new { @class = "btn btn-default btn-sm" })</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title"><h4>Total Material Ordered</h4></div>
+            <div class="x_content">
+                <div id="materials-bar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $.get('@Url.Action("OrderedMaterialsChartData", "Reports")', function (data) {
+
+                Morris.Bar({
+                    element: 'materials-bar',
+                    data: data,
+                    xkey: 'MaterialName',
+                    barColors: ['#1ABB9C'],
+                    ykeys: ['Weight'],
+                    labels: ['Weight']
+                });
+            })
+
+            $.get('@Url.Action("OrderedProductsChartData", "Reports")', function (data) {
+
+                Morris.Bar({
+                    element: 'products-bar',
+                    data: data,
+                    xkey: 'ProductName',
+                    barColors: ['#2A3F54'],
+                    ykeys: ['Quantity'],
+                    labels: ['Quantity']
+                });
+            })
+
+            $.get('@Url.Action("TotalProductBuiltRatioChartData", "Reports")', function (data) {
+                var totalValue = 0;
+                var newDataObj = [];
+                $.each(data, function (i, d) {
+                    totalValue += d.value;
+                });
+
+                $.each(data, function (i, d) {
+                    console.log(d.value);
+                    newDataObj.push({
+                        label: d.label,
+                        value: Math.round(((d.value / totalValue) * 100))
+                    });
+                });
+
+                console.log(newDataObj);
+                Morris.Donut({
+                    element: 'products-piechart',
+                    data: newDataObj,
+                    colors: ['#2A3F54', '#1ABB9C', '#acadac']
+                });
+            });
+
+        });
+    </script>
+}
+
+@*<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="dashboard_graph">
 
@@ -737,4 +831,4 @@
             <!-- end of weather widget -->
         </div>
     </div>
-</div>
+</div>*@
