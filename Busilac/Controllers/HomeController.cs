@@ -11,7 +11,9 @@ namespace Busilac.Controllers
     {
         public ActionResult Index()
         {
-
+            if(User.IsInRole("Supplier")) {
+                return RedirectToAction("Index", "Supplier");
+            }
 
             return View();
         }
