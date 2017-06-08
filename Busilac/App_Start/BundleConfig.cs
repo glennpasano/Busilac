@@ -43,7 +43,7 @@ namespace Busilac
                       "~/Content/custom-project.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/gentella_js").Include(
-                      "~/vendors/jquery/dist/jquery.min.js",
+                      "~/Scripts/jquery-1.10.2.min.js",
                       "~/vendors/bootstrap/dist/js/bootstrap.min.js",
                       "~/vendors/fastclick/lib/fastclick.js",
                       "~/vendors/nprogress/nprogress.js",

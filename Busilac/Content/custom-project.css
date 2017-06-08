@@ -11,3 +11,26 @@
 .navbar-nav > li > form > a > img {
     max-width: none;
 }
+
+html,
+body,
+body > .container,
+.main_container,
+.right_col {
+    height: 100%;
+}
+
+
+.orders-modal p {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.orders-modal h4 {
+    text-decoration: underline;
+}
+
+.orders-modal .product-table th,
+.orders-modal .product-table td {
+    text-align: center;
+}

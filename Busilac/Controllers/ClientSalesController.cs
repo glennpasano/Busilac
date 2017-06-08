@@ -17,11 +17,11 @@ namespace Busilac.Controllers
         [Route("ManageOrderedProducts")]
         public ActionResult Index()
         {
-            var covm = new List<ClientOrdersViewModels>();
+            var covm = new ClientOrdersViewModels();
 
             foreach (var item in db.ProductSalesOrders.Where(m => m.StatusId == 1 || m.StatusId == 3).ToList())
             {
-                var co = new ClientOrdersViewModels();
+                var co = new ProductSalesOrderDetailsViewModels();
                 co.ProductSalesOrders = item;
 
                 foreach (var details in db.ProductSalesOrderDetails.Where(m => m.ProductSalesOrdersId == item.ProductSalesOrdersId).ToList())
@@ -30,10 +30,10 @@ namespace Busilac.Controllers
                 }
 
                 co.ProductListString = co.ProductListString.TrimEnd(',', ' ');
-                covm.Add(co);
+                covm.ProductSalesOrderDetails.Add(co);
             }
 
-            return View(covm.OrderBy(m => m.ProductSalesOrders.StatusId));
+            return View(covm);
         }
 
         [HttpGet]

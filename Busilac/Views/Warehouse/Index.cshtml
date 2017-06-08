@@ -36,12 +36,13 @@
                         {
                             var className = "";
                             var textClassName = "";
+                            var isCritical = false;
 
                             if(@item.TotalMaterialWeight < @item.Material.CriticalLevelWeight)
                             {
                                 className = "danger";
                                 textClassName = "text-danger";
-
+                                isCritical = true;
                             }
 
                             <tr class="@className">
@@ -49,6 +50,12 @@
                                 <td>@item.Material.Type.TypeName</td>
                                 <td class="@textClassName">@item.TotalMaterialWeight</td>
                                 <td>@item.Material.CriticalLevelWeight</td>
+                                <td>
+                                    @if(isCritical)
+                                    {
+                                        <a href="#" data-toggle="modal" data-target=".materials-order-modal" data-materialid="@item.Material.MaterialId" >Create PO</a>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -97,4 +104,88 @@
         </div>
     </div>
 </div>
+<div class="modal fade orders-modal materials-order-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="text-center">
+                <h1><i class="fa fa-truck"></i></h1>
+                <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                <p>National Highway, San Jose, Batangas</p>
+                <p>Telephone Nos. 726-2296; 726-2297</p>
+                <p>TIN - 001-440-691 Non-Vat</p>
+                <br />
+                <h4>PURCHASE ORDER</h4>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    @using (Html.BeginForm("OrderMaterial", "Warehouse", FormMethod.Post))
+                    {
+                    
+                    <div class="clearfix">
+                        <p class="pull-left">
+                            <label>Client</label>
+                            <select name="supplierId" class="form-control">
+                                <option value="1">Test</option>
+                            </select>
+                        </p>
+                    </div>
+                    <br />
+                    <input id="material-id" type="hidden" name="materialId" value="1" />
+                    <table class="table table-bordered table-condensed product-table">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Weight</th>
+                                <th>Unit</th>
+                                <th>Price</th>
+                                <th>Amount (₱)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            <tr>
+                                <td id="material-name">Test</td>
+                                <td align="center"><input id="material-weight" type="number" name="weight" value="0" style="max-width: 100px;" /></td>
+                                <td>kg</td>
+                                <td align="center"><input id="material-price" type="number" name="price" value="0" style="max-width: 100px;" /></td>
+                                <td><strong id="material-amount">0.00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-right">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+@section scripts {
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.materials-order-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var materialId = button.data('materialid');
+            $('#material-id').val(materialId);
+            $.get('@Url.Action("GetMaterial", "Warehouse")?materialId=' + materialId, function (data) {
+                console.log(data);
+                $('#material-name').html(data.Material.Name);
+                $('#material-weight').val(data.Material.NormalLevelWeight - data.TotalInventory);
+            })
+        });
+
+        $('#material-weight, #material-price').on('change', function () {
+            var totalAmt = $('#material-weight').val() * $('#material-price').val();
+            $('#material-amount').html(totalAmt.toFixed(2));
+        });
+
+    });
+
+</script>    
+    
+}

@@ -37,6 +37,7 @@
                                 <tr>
                                     <th>Product</th>
                                     <th>Qty</th>
+                                    <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,6 +46,7 @@
                                     <tr>
                                         <td>@Model.ProductList[i].Name</td>
                                         <td>@Html.TextBoxFor(model => model.ProductSalesOrderDetails[i].Quantity, new { @class = "form-control", @Value = "0" })</td>
+                                        <td>@Html.TextBoxFor(model => model.ProductSalesOrderDetails[i].Price, new { @class = "form-control", @Value = Model.ProductList[i].Price })</td>@*Model.ProductSalesOrderDetails[i].Products.Price }*@
                                         @Html.HiddenFor(model => model.ProductSalesOrderDetails[i].ProductId, new { @Value = Model.ProductList[i].ProductId })
                                     </tr>
                                 }
@@ -58,4 +60,35 @@
             </div>
         }
     </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Inventory</h4>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Material</td>
+                        <td>Total Weight</td>
+                    </tr>
+                </thead>
+                <tbody id="inventory-panel"></tbody>
+            </table>
+        </div>
+    </div>
 </div>
+@section scripts {
+    
+<script>
+    $(document).ready(function () {
+
+        $.get('GetInventory', function (data) {
+            $.each(data, function (i, d) {
+                $('#inventory-panel').append('<tr><td>' + d.Material.Name + '</td><td>' + d.TotalMaterialWeight +'</td></tr>');
+            });
+        });
+
+    });
+</script>
+
+}

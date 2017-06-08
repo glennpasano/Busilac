@@ -253,6 +253,22 @@
     <Compile Include="Migrations\201703191213013_ChangeNotificationUserIdType.Designer.cs">
       <DependentUpon>201703191213013_ChangeNotificationUserIdType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705280555580_AddedPriceForMaterialAndProduct.cs" />
+    <Compile Include="Migrations\201705280555580_AddedPriceForMaterialAndProduct.Designer.cs">
+      <DependentUpon>201705280555580_AddedPriceForMaterialAndProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705280609366_AddedNormalWeightToProductAndMaterials.cs" />
+    <Compile Include="Migrations\201705280609366_AddedNormalWeightToProductAndMaterials.Designer.cs">
+      <DependentUpon>201705280609366_AddedNormalWeightToProductAndMaterials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706012305434_MovedPriceToSalesOrders.cs" />
+    <Compile Include="Migrations\201706012305434_MovedPriceToSalesOrders.Designer.cs">
+      <DependentUpon>201706012305434_MovedPriceToSalesOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.cs" />
+    <Compile Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.Designer.cs">
+      <DependentUpon>201706061558399_AddedPriceToProductSalesOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Email.cs" />
@@ -4586,6 +4602,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703191213013_ChangeNotificationUserIdType.resx">
       <DependentUpon>201703191213013_ChangeNotificationUserIdType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705280555580_AddedPriceForMaterialAndProduct.resx">
+      <DependentUpon>201705280555580_AddedPriceForMaterialAndProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705280609366_AddedNormalWeightToProductAndMaterials.resx">
+      <DependentUpon>201705280609366_AddedNormalWeightToProductAndMaterials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706012305434_MovedPriceToSalesOrders.resx">
+      <DependentUpon>201706012305434_MovedPriceToSalesOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.resx">
+      <DependentUpon>201706061558399_AddedPriceToProductSalesOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

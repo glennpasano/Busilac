@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Busilac.ViewModels.ClientOrdersViewModels>
+﻿@model Busilac.ViewModels.ClientOrdersViewModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Clients</h1>
+<h1>Sales Orders</h1>
 <hr />
 <p>
     @Html.ActionLink("Order Products", "Create", null, new { @class = "btn btn-default" })
@@ -27,14 +27,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.ProductSalesOrderDetails)
                         {
                             <tr>
                                 <td>@item.ProductSalesOrders.OrderDate</td>
                                 <td>@item.ProductSalesOrders.ClientName</td>
                                 <td>@item.ProductListString</td>
                                 <td>@item.ProductSalesOrders.ProductStatus.StatusName</td>
-                                @*<td></td>*@
+                                <td><button class="btn btn-sm btn-link" data-toggle="modal" data-target=".view-sales-order" data-salesorderid="@item.ProductSalesOrders.ProductSalesOrdersId">View</button></td>
                             </tr>
                         }
                     </tbody>
@@ -43,3 +43,89 @@
         </div>
     </div>
 </div>
+<div class="modal fade view-sales-order orders-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="text-center">
+                <h1><i class="fa fa-truck"></i></h1>
+                <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                <p>National Highway, San Jose, Batangas</p>
+                <p>Telephone Nos. 726-2296; 726-2297</p>
+                <p>TIN - 001-440-691 Non-Vat</p>
+                <br />
+                <h4>SALES ORDER</h4>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="clearfix">
+                        <p class="pull-left">Client: <span id="client-name"></span></p>
+                        <p class="pull-right"> Date: <span id="order-date"></span></p>
+                    </div>
+                    <br />
+                    <table class="table table-bordered table-condensed product-table">
+                        <thead>
+                            <tr>
+                                <th>Products</th>
+                                <th>Qty</th>
+                                <th>Unit Cost</th>
+                                <th>Amount (₱)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            <tr>
+                                <td colspan="3" class="text-right">Total:</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles {
+    
+<style>
+    .modal th:nth-of-type(1),
+    .modal td:nth-of-type(1) {
+        text-align: left;
+    }
+
+</style>
+
+}
+@section scripts {
+
+<script>
+
+    $(document).ready(function() {
+
+        $('.view-sales-order').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var salesOrderId = button.data('salesorderid');
+
+            $.get('@Url.Action("GetSalesOrder", "Client")' + '?salesOrderId=' + salesOrderId, function (data) {
+
+                $('#order-date').html(data.OrderDateString);
+                $('#client-name').html(data.ProductSalesOrder.ClientName);
+                $('#product-list').html('');
+                var productList = '';
+                var totalAmount = 0;
+                $.each(data.ProductSalesOrderDetails, function (i, item) {
+                    var subTotalAmt = item.Quantity * item.Price;
+                    totalAmount += subTotalAmt;
+                    productList += '<tr><td>' + item.Products.Name + '</td><td>' + item.Quantity + '</td><td>' + item.Price + '</td><td>' + subTotalAmt.toFixed(2) + '</td></tr>'
+                });
+
+                $('#product-list').html(productList).append('<tr><td colspan="3" style="text-align: right">Total: </td><td>' + totalAmount.toFixed(2) + '</td></tr>');
+            });
+        });
+
+
+    });
+
+</script>    
+
+}
+

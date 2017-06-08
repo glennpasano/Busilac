@@ -12,9 +12,13 @@ namespace Busilac.Models
         public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public double Price { get; set; }
         public int isVoid { get; set; }
         [Display(Name = "Critical Level")]
         public int CriticalLevelQuantity { get; set; }
+        [Display(Name = "Normal Level")]
+        public int NormalLevelQuantity { get; set; }
     }
 
     public class ProductInventory
@@ -62,6 +66,7 @@ namespace Busilac.Models
         public int ProductId { get; set; }
         public int ProductSalesOrdersId { get; set; }
         public int Quantity { get; set; }
+        public float Price { get; set; }
 
         public virtual ProductSalesOrders ProductSalesOrders { get; set; }
         public virtual Products Products { get; set; }

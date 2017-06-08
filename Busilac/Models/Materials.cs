@@ -17,11 +17,10 @@ namespace Busilac.Models
         [Required]
         public int isVoid { get; set; }
         [Required]
-        [Display(Name = "Cost")]
-        public decimal CostPerWeight { get; set; }
-        [Required]
-        [Display(Name = "Critical Level")]
+        [Display(Name = "Critical Weight")]
         public decimal CriticalLevelWeight { get; set; }
+        [Display(Name = "Normal Weight")]
+        public decimal NormalLevelWeight { get; set; }
 
         public virtual MaterialType Type { get; set; }
     }
@@ -71,6 +70,8 @@ namespace Busilac.Models
         public int MaterialId { get; set; }
         [Required]
         public decimal Weight { get; set; }
+        [Required]
+        public decimal Price { get; set; }
 
         public virtual Materials Materials { get; set; }
         public virtual MaterialsSalesOrders MaterialSalesOrders { get; set; }

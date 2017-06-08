@@ -184,6 +184,23 @@ namespace Busilac.Controllers
             return RedirectToAction("ManageProductionOrders");
         }
 
+        [HttpPost]
+        public ActionResult OrderMaterial(float price, float weight, int materialId, int supplierId)
+        {
+
+            return RedirectToAction("Index");
+        }
+
+        // APIs
+        public JsonResult GetMaterial(int materialId)
+        {
+            return Json(new
+            {
+                Material = db.Materials.First(m => m.MaterialId == materialId),
+                TotalInventory = db.MaterialsInventory.Where(m => m.MaterialId == materialId).Sum(m => m.Weight)
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         #region Helpers
 
         private CreateProductOrdersViewModel CreateProductOrderViewModelData(CreateProductOrdersViewModel createProductsVM)
