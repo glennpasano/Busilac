@@ -6,14 +6,18 @@ using System.Web;
 
 namespace Busilac.ViewModels
 {
-    public class WarehouseViewModels
+
+    public class SupplierListViewModel
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 
     public class WarehouseHomeViewModel
     {
         public List<MaterialsInventoryViewModel> MaterialsInventory { get; set; }
         public List<ProductsInventoryViewModel> ProductInventory { get; set; }
+        public List<SupplierListViewModel> SupplierList { get; set; }
     }
 
     public class ProductOrdersListViewModel

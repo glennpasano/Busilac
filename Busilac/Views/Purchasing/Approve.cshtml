@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Approve";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    decimal totalOrdered = 0;
 }
 
 <h1>Purchasing</h1>
@@ -21,33 +23,56 @@
                 <div class="panel-heading">
                     <h4>Confirm Sales Order</h4>
                 </div>
-                <div class="panel-body">
-                    <p>
-                        <strong>Date Ordered: </strong> @Model.MaterialsSalesOrders.OrderDate
-                    </p>
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Material</th>
-                                        <th>Type</th>
-                                        <th>Quantity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.MaterialsSalesOrdersDetails)
-                                    {
-                                        <tr>
-                                            <td>@item.Materials.Name</td>
-                                            <td>@item.Materials.Type.TypeName</td>
-                                            <td>@item.Weight</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="panel-body orders-modal">
+                    <div class="text-center">
+                        <h1><i class="fa fa-truck"></i></h1>
+                        <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                        <p>National Highway, San Jose, Batangas</p>
+                        <p>Telephone Nos. 726-2296; 726-2297</p>
+                        <p>TIN - 001-440-691 Non-Vat</p>
+                        <br />
+                        <h5>PO#: @Model.MaterialsSalesOrders.MaterialSalesOrdersId</h5>
+                        <h4>PURCHASE ORDER</h4>
                     </div>
+                    <br />
+                    <div class="clearfix">
+                        <h5 class="pull-left">
+                            <strong>To: </strong> @Model.MaterialsSalesOrders.Supplier.UserName
+                        </h5>
+                        <h5 class="pull-right">
+                            <strong>Date Ordered: </strong> @Model.MaterialsSalesOrders.OrderDate.ToShortDateString()
+                        </h5>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Type</th>
+                                <th>Weight (kg)</th>
+                                <th>Price/kg</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MaterialsSalesOrdersDetails)
+                            {
+                                var subTotal = item.Price * item.Weight;
+                                totalOrdered += subTotal;
+
+                                <tr>
+                                    <td>@item.Materials.Name</td>
+                                    <td>@item.Materials.Type.TypeName</td>
+                                    <td>@item.Weight</td>
+                                    <td>@item.Price</td>
+                                    <td>@subTotal.ToString("0.00")</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="4" class="text-right">Total</td>
+                                <td>@totalOrdered.ToString("0.00")</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="panel-footer clearfix">
                     <input type="submit" value="Confirm" class="btn btn-success btn-sm pull-right" />

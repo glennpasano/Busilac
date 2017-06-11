@@ -30,7 +30,7 @@
                         <th>Order Date</th>
                         <th>Materials</th>
                         <th>Status</th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -40,10 +40,10 @@
                             <td>@item.MaterialSalesOrders.OrderDate</td>
                             <td>@item.MaterialsList</td>
                             <td>@item.MaterialSalesOrders.MaterialsStatus.StatusName</td>
-                            <td>
+                            @*<td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId })
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 </tbody>

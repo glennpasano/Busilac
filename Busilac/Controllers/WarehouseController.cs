@@ -16,23 +16,30 @@ namespace Busilac.Controllers
 
         public ActionResult Index()
         {
-            var homeViewModel = new WarehouseHomeViewModel();
+            var homeViewModel = new WarehouseHomeViewModel()
+            {
+                MaterialsInventory = db.MaterialsInventory
+                                        .GroupBy(m => m.Materials)
+                                        .Select(group => new MaterialsInventoryViewModel
+                                        {
+                                            Material = group.Key,
+                                            TotalMaterialWeight = group.Sum(x => x.Weight)
+                                        }).ToList(),
 
-            homeViewModel.MaterialsInventory = db.MaterialsInventory
-                                                    .GroupBy(m => m.Materials)
-                                                    .Select(group => new MaterialsInventoryViewModel
-                                                    {
-                                                        Material = group.Key,
-                                                        TotalMaterialWeight = group.Sum(x => x.Weight)
-                                                    }).ToList();
-
-            homeViewModel.ProductInventory = db.ProductInventory
-                                                    .GroupBy(m => m.Product)
-                                                    .Select(group => new ProductsInventoryViewModel
-                                                    {
-                                                        Products = group.Key,
-                                                        TotalProductCount = group.Sum(m => m.Quantity)
-                                                    }).ToList();
+                ProductInventory = db.ProductInventory
+                                        .GroupBy(m => m.Product)
+                                        .Select(group => new ProductsInventoryViewModel
+                                        {
+                                            Products = group.Key,
+                                            TotalProductCount = group.Sum(m => m.Quantity)
+                                        }).ToList(),
+                SupplierList = db.Users.Where(m => m.Roles.Any(x => x.RoleId == "2" && x.RoleId != "1"))
+                                        .Select(m => new SupplierListViewModel()
+                                        {
+                                            Name = m.UserName,
+                                            Id = m.Id
+                                        }).ToList()
+            };
 
             return View(homeViewModel);
         }
@@ -185,8 +192,57 @@ namespace Busilac.Controllers
         }
 
         [HttpPost]
-        public ActionResult OrderMaterial(float price, float weight, int materialId, int supplierId)
+        public ActionResult OrderMaterial(float price, float weight, int materialId, string supplierId)
         {
+            // Create sales order
+            var som = new MaterialsSalesOrders()
+            {
+                OrderDate = DateTime.Now,
+                StatusId = 1,
+                SupplierId = supplierId
+            };
+            db.MaterialsSalesOrders.Add(som);
+
+            // Assign material to sales order detail
+            var somDetails = new MaterialsSalesOrdersDetails()
+            {
+                MaterialSalesOrders = som,
+                MaterialId = materialId,
+                Price = (decimal) price,
+                Weight = (decimal) weight
+            };
+            db.MaterialsSalesOrdersDetails.Add(somDetails);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult OrderProductManufacture(int productId, int quantity)
+        {
+            if(quantity <= 0) {
+                ModelState.AddModelError("ErrorAddProduct", "Invalid Product Quantity");
+
+                return View();
+            }
+
+            var pmo = new ProductManufactureOrders()
+            {
+                StatusId = 1,
+                RequestDate = DateTime.Now
+            };
+            db.ProductManufactureOrders.Add(pmo);
+
+            var pmod = new ProductManufactureOrderDetails()
+            {
+                ProductManufactureOrders = pmo,
+                ProductId = productId,
+                Quantity = quantity
+            };
+            db.ProductManufactureOrderDetails.Add(pmod);
+
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -198,6 +254,77 @@ namespace Busilac.Controllers
             {
                 Material = db.Materials.First(m => m.MaterialId == materialId),
                 TotalInventory = db.MaterialsInventory.Where(m => m.MaterialId == materialId).Sum(m => m.Weight)
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProduct(int productId)
+        {
+            return Json(new
+            {
+                Name = db.Products.First(m => m.ProductId == productId).Name,
+                TotalInventory = db.ProductInventory.Where(m => m.ProductId == productId).Sum(m => m.Quantity),
+                NormalQuantity = db.Products.First(m => m.ProductId == productId).NormalLevelQuantity
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSuppliers()
+        {
+            return Json(new
+            {
+                Suppliers = db.Users.Where(m => m.Roles.Any(x => x.RoleId == "2" && x.RoleId != "1"))
+                                .Select(m => new {
+                                    Name = m.UserName,
+                                    Id = m.Id
+                                })
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPendingSalesOrders()
+        {
+            var materialsSalesOrders = new List<MaterialSalesOrdersListViewModel>();
+
+            foreach (var so in db.MaterialsSalesOrders.Where(m => m.StatusId == 1).ToList())
+            {
+                var msovm = new MaterialSalesOrdersListViewModel();
+                var materialsList = "";
+
+                msovm.MaterialSalesOrders = so;
+
+                foreach (var details in db.MaterialsSalesOrdersDetails.Where(m => m.MaterialSalesOrdersId == so.MaterialSalesOrdersId).ToList())
+                {
+                    materialsList += string.Format("{0} ({1}kg), ", details.Materials.Name, details.Weight);
+                }
+
+                msovm.MaterialsList = materialsList.TrimEnd(',', ' ');
+                msovm.OrderDateString = so.OrderDate.ToShortDateString();
+
+                materialsSalesOrders.Add(msovm);
+            }
+
+            var manufactureOrders = new List<ManufacturingProductionOrdersViewModel>();
+
+            foreach (var mo in db.ProductManufactureOrders.Where(m => m.StatusId == 1).ToList())
+            {
+                var pso = new ManufacturingProductionOrdersViewModel();
+                var productList = "";
+
+                pso.ProductManufactureOrders = mo;
+
+                foreach (var mod in db.ProductManufactureOrderDetails.Where(m => m.ProductManufactureOrderId == mo.ProductManufactureOrderId).ToList())
+                {
+                    productList += string.Format("{0}({1}), ", mod.Products.Name, mod.Quantity);
+                }
+
+                pso.OrderDetailsString = productList.TrimEnd(',', ' ');
+                pso.OrderDateString = mo.RequestDate.ToShortDateString();
+
+                manufactureOrders.Add(pso);
+            }
+
+            return Json(new
+            {
+                Materials = materialsSalesOrders,
+                Products = manufactureOrders
             }, JsonRequestBehavior.AllowGet);
         }
 

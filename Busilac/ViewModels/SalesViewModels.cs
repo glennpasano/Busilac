@@ -14,6 +14,7 @@ namespace Busilac.ViewModels
     {
         public MaterialsSalesOrders MaterialSalesOrders { get; set; }
         public string MaterialsList { get; set; }
+        public string OrderDateString { get; set; }
     }
 
     public class CreateSalesOrderViewModel
@@ -21,5 +22,7 @@ namespace Busilac.ViewModels
         public MaterialsSalesOrders MaterialsSalesOrders { get; set; }
         public List<MaterialsSalesOrdersDetails> MaterialsSalesOrdersDetails { get; set; }
         public List<Materials> MaterialsList { get; set; }
+
+        public List<SupplierListViewModel> SupplierList { get; set; }
     }
 }

@@ -39,6 +39,12 @@ namespace Busilac.Controllers
         {
             CreateSalesOrderViewModel createSalesOrderViewModel = new CreateSalesOrderViewModel();
             createSalesOrderViewModel.MaterialsList = db.Materials.Where(m => m.isVoid == 0).ToList();
+            createSalesOrderViewModel.SupplierList = db.Users.Where(m => m.Roles.Any(x => x.RoleId == "2" && x.RoleId != "1"))
+                                        .Select(m => new SupplierListViewModel()
+                                        {
+                                            Name = m.UserName,
+                                            Id = m.Id
+                                        }).ToList();
 
             return View(createSalesOrderViewModel);
         }
@@ -46,22 +52,25 @@ namespace Busilac.Controllers
         [HttpPost]
         public ActionResult CreateSalesOrderMaterials(CreateSalesOrderViewModel csovm)
         {
-            MaterialsSalesOrders mso = new MaterialsSalesOrders();
-            mso.OrderDate = DateTime.Now;
-            mso.StatusId = 1; // Status = Pending Approval
-
+            MaterialsSalesOrders mso = new MaterialsSalesOrders()
+            {
+                OrderDate = DateTime.Now,
+                StatusId = 1, // Status = Pending Approval
+                SupplierId = csovm.MaterialsSalesOrders.SupplierId
+            };
             db.MaterialsSalesOrders.Add(mso);
 
             foreach (var item in csovm.MaterialsSalesOrdersDetails)
             {
                 if(item.Weight > 0)
                 {
-                    var msodetails = new MaterialsSalesOrdersDetails();
-
-                    msodetails.MaterialSalesOrders = mso;
-                    msodetails.MaterialId = item.MaterialId;
-                    msodetails.Weight = item.Weight;
-
+                    var msodetails = new MaterialsSalesOrdersDetails()
+                    {
+                        MaterialSalesOrders = mso,
+                        MaterialId = item.MaterialId,
+                        Weight = item.Weight,
+                        Price = item.Price
+                    };
                     db.MaterialsSalesOrdersDetails.Add(msodetails);
                 }
             }

@@ -15,11 +15,14 @@
 html,
 body,
 body > .container,
-.main_container,
-.right_col {
+.main_container {
     height: 100%;
 }
 
+
+/*.right_col {
+    height: 100%;
+}*/
 
 .orders-modal p {
     margin: 0;

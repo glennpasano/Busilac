@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -56,8 +57,12 @@ namespace Busilac.Models
         public DateTime OrderDate { get; set; }
         [Required]
         public int StatusId { get; set; }
+        [Required]
+        public string SupplierId { get; set; }
 
         public virtual MaterialsStatus MaterialsStatus { get; set; }
+        [ForeignKey("SupplierId")]
+        public virtual ApplicationUser Supplier { get; set; }
     }
 
     public class MaterialsSalesOrdersDetails
@@ -69,8 +74,10 @@ namespace Busilac.Models
         [Required]
         public int MaterialId { get; set; }
         [Required]
+        [Range(typeof(Decimal), "0", "99999999", ErrorMessage = "Must be greater than 0")]
         public decimal Weight { get; set; }
         [Required]
+        [Range(typeof(Decimal), "0", "99999999", ErrorMessage = "Must be greater than 0")]
         public decimal Price { get; set; }
 
         public virtual Materials Materials { get; set; }

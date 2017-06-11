@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPageController.cs" />
+    <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ClientSalesController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
@@ -268,6 +269,10 @@
     <Compile Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.cs" />
     <Compile Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.Designer.cs">
       <DependentUpon>201706061558399_AddedPriceToProductSalesOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706101510210_AddedSupplierIdToMaterialSales.cs" />
+    <Compile Include="Migrations\201706101510210_AddedSupplierIdToMaterialSales.Designer.cs">
+      <DependentUpon>201706101510210_AddedSupplierIdToMaterialSales.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -4557,6 +4562,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdminPage\" />
+    <Folder Include="Views\API\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Messages\" />
     <Folder Include="Views\Notifications\" />
@@ -4614,6 +4620,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706061558399_AddedPriceToProductSalesOrder.resx">
       <DependentUpon>201706061558399_AddedPriceToProductSalesOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706101510210_AddedSupplierIdToMaterialSales.resx">
+      <DependentUpon>201706101510210_AddedSupplierIdToMaterialSales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
