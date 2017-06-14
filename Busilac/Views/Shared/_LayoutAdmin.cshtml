@@ -7,6 +7,7 @@
     <title>Busilac</title>
     @Styles.Render("~/Content/gentella_css")
     @Styles.Render("~/Content/site-css")
+    <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
 </head>
 <body class="nav-md">
@@ -28,9 +29,10 @@
         </div>
     </div>
     @Html.Partial("_SendMessage")
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/gentella_js")
     @RenderSection("scripts", required: false)
+    <script src="~/vendors/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/vendors/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     @if (Request.IsAuthenticated)
     {
         var currUserId = User.Identity.GetUserId();
@@ -38,7 +40,9 @@
         <script>
             var currentUserId = '@currUserId';
 
-            $(document).ready(function () {
+            jQuery(document).ready(function () {
+
+                $('.datatable').DataTable();
 
                 MessagesHandler.getMessages();
                 MessagesHandler.getRecipientList();

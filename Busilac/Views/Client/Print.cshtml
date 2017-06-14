@@ -1,0 +1,78 @@
+﻿@model Busilac.ViewModels.ListProductOrdersViewModel
+@{
+    ViewBag.Title = "Print";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    float salesOrderTotal = 0;
+}
+
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <p class="hidden-print">
+            @Html.ActionLink("< Back", "Index", "Client", new { @class = "btn btn-default" })
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-body orders-modal">
+                <div class="text-center">
+                    <h1><i class="fa fa-truck"></i></h1>
+                    <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                    <p>National Highway, San Jose, Batangas</p>
+                    <p>Telephone Nos. 726-2296; 726-2297</p>
+                    <p>TIN - 001-440-691 Non-Vat</p>
+                    <br />
+                    <h5>SO# <span id="salesordernumber">@Model.ProductSalesOrder.ProductSalesOrdersId</span></h5>
+                    <h4>SALES ORDER</h4>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="clearfix">
+                            <p class="pull-left">Client: <span id="client-name">@Model.ProductSalesOrder.ClientName</span></p>
+                            <p class="pull-right"> Date: <span id="order-date">@Model.ProductSalesOrder.OrderDate.ToShortDateString()</span></p>
+                        </div>
+                        <br />
+                        <table class="table table-bordered table-condensed product-table">
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Qty</th>
+                                    <th>Unit Cost</th>
+                                    <th>Amount (₱)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-list">
+                                @foreach (var item in Model.ProductSalesOrderDetails)
+                                {
+                                    var subTotal = item.Quantity * item.Price;
+                                    salesOrderTotal += subTotal;
+
+                                    <tr>
+                                        <td>@item.Products.Name</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Price</td>
+                                        <td>@subTotal</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" class="text-right">Total:</td>
+                                    <td>@salesOrderTotal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>Prepared by:</h5>
+                        <br />
+                        <br />
+                        <div style="border-bottom: 1px solid #000"></div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

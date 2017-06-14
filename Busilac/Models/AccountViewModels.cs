@@ -3,6 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Busilac.Models
 {
+    // Start Custom
+
+    public class ManageUsersViewModel
+    {
+        public string UserName { get; set; }
+        public string Roles { get; set; }
+    }
+
+    // End Custom
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -62,12 +72,24 @@ namespace Busilac.Models
         public bool RememberMe { get; set; }
     }
 
+    public class RolesViewModel
+    {
+        public string RoleId { get; set; }
+        public string Name { get; set; }
+    }
+
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        
+        public string Role { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -79,6 +101,8 @@ namespace Busilac.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public List<RolesViewModel> RolesList { get; set; }
     }
 
     public class ResetPasswordViewModel

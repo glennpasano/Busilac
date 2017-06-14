@@ -30,8 +30,13 @@ namespace Busilac.Controllers
 
             using (var smtp = new SmtpClient())
             {
-                await smtp.SendMailAsync(message);
-                return Json(new { success = true });
+                try { 
+                    await smtp.SendMailAsync(message);
+                    return Json(new { success = true });
+                } catch
+                {
+                    return Json(new { success = true });
+                }
             }
         }
     }

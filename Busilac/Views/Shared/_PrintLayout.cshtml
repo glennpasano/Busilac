@@ -5,10 +5,25 @@
     <meta name="viewport" content="width=device-width" />
     <title>Busilac</title>
     @Styles.Render("~/Content/css")
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
     <style>
         body {
             background-color: #fff;
+        }
+
+        .orders-modal p {
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .orders-modal h4 {
+            text-decoration: underline;
+        }
+
+        .orders-modal .product-table th,
+        .orders-modal .product-table td {
+            text-align: center;
         }
     </style>
 </head>

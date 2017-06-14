@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Busilac.ViewModels.OrderedMaterialsReportViewModel>
+﻿@model Busilac.ViewModels.OrderedMaterialsReportViewModel
 @{
     ViewBag.Title = "Materials Overview";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
@@ -11,6 +11,35 @@
     @Html.ActionLink("< Back", "Index", "Home", null, new { @class = "btn btn-default btn-sm" })
     <button onclick="window.print();" class="btn btn-sm btn-default">Print</button>
 </p>
+@using (Html.BeginForm())
+{
+    <div class="panel panel-default hidden-print">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Start Date</label>
+                            <input type="text" name="startdate" value="" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>End Date</label>
+                            <input type="text" name="enddate" value="" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Select Product</label>
+                            @Html.DropDownList("materialId", new SelectList(Model.MaterialsList, "Id", "Name"), "Select Product", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label style="visibility: hidden;">.</label>
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -21,7 +50,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderedMaterials)
         {
             <tr>
                 <td>@item.OrderedDate</td>

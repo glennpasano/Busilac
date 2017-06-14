@@ -5,14 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Busilac.Controllers
 {
-    [Authorize(Roles = "Procurement, Admin")]
+    [Authorize(Roles = "Procurement, Admin, Warehouse")]
     public class ProcurementController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Sales
+        [Route("Warehouse/PurchaseOrders")]
         public ActionResult Index()
         {
             var msolvm = new List<MaterialSalesOrdersListViewModel>();
@@ -32,6 +34,28 @@ namespace Busilac.Controllers
             }
 
             return View(msolvm);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var model = new MaterialSalesOrderDetailsViewModel()
+            {
+                MaterialSalesOrders = db.MaterialsSalesOrders.Where(m => m.MaterialSalesOrdersId == id).First(),
+                MaterialSalesOrderDetails = db.MaterialsSalesOrdersDetails.Where(m => m.MaterialSalesOrdersId == id).ToList()
+            };
+
+            return View(model);
+        }
+
+        public ActionResult Print(int id)
+        {
+            var model = new MaterialSalesOrderDetailsViewModel()
+            {
+                MaterialSalesOrders = db.MaterialsSalesOrders.Where(m => m.MaterialSalesOrdersId == id).First(),
+                MaterialSalesOrderDetails = db.MaterialsSalesOrdersDetails.Where(m => m.MaterialSalesOrdersId == id).ToList()
+            };
+
+            return View(model);
         }
 
         [HttpGet]

@@ -82,9 +82,9 @@
 <script>
     $(document).ready(function () {
 
-        $.get('GetInventory', function (data) {
-            $.each(data, function (i, d) {
-                $('#inventory-panel').append('<tr><td>' + d.Material.Name + '</td><td>' + d.TotalMaterialWeight +'</td></tr>');
+        $.get('@Url.Action("GetProducts", "Client")', function (data) {
+            $.each(data.Inventory, function (i, d) {
+                $('#inventory-panel').append('<tr><td>' + d.Name + '</td><td>' + d.TotalCount +'</td></tr>');
             });
         });
 

@@ -328,6 +328,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="tsconfig.json" />
     <Content Include="vendors\animate.css\animate.css" />
     <Content Include="vendors\animate.css\animate.min.css" />
     <Content Include="vendors\animate.css\gulpfile.js" />
@@ -4558,10 +4559,16 @@
     <Content Include="Views\Reports\MaterialsOverview.cshtml" />
     <Content Include="Views\Materials\Edit.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\AdminPage\ManageUsers.cshtml" />
+    <Content Include="Views\Account\ManageUsers.cshtml" />
+    <Content Include="Views\Manufacturing\Details.cshtml" />
+    <Content Include="Views\Manufacturing\Print.cshtml" />
+    <Content Include="Views\Client\Print.cshtml" />
+    <Content Include="Views\Procurement\Details.cshtml" />
+    <Content Include="Views\Procurement\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AdminPage\" />
     <Folder Include="Views\API\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Messages\" />

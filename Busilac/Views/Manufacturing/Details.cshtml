@@ -1,0 +1,55 @@
+﻿@model Busilac.ViewModels.ManufacturingProductionOrderDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Details</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            @Html.ActionLink("< Back", "Index", "Manufacturing", new { @class = "btn btn-default" })
+        </p>
+        <div class="panel panel-default orders-modal">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h1><i class="fa fa-truck"></i></h1>
+                    <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                    <p>National Highway, San Jose, Batangas</p>
+                    <p>Telephone Nos. 726-2296; 726-2297</p>
+                    <p>TIN - 001-440-691 Non-Vat</p>
+                    <br />
+                    <h5>MO# @Model.ProductManufactureOrders.ProductManufactureOrderId</h5>
+                    <h4>MANUFACTURE ORDER</h4>
+                </div>
+                <br />
+                <h5>
+                    <strong>Date Ordered:</strong> @Model.ProductManufactureOrders.RequestDate.ToShortDateString()
+                </h5>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DetailsList)
+                        {
+                            <tr>
+                                <td>@item.Products.Name</td>
+                                <td>@item.Quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <p>
+                    @Html.ActionLink("Print", "Print", "Manufacturing", new { id = Model.ProductManufactureOrders.ProductManufactureOrderId }, new { @class = "btn btn-default" })
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

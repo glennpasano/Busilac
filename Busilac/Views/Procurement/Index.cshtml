@@ -13,7 +13,7 @@
     </style>
 }
 
-<h1>Procurement</h1>
+<h1>Warehouse</h1>
 <hr />
 <p>
     @Html.ActionLink("Create New", "CreateSalesOrderMaterials", null, new { @class = "btn btn-default" })
@@ -24,31 +24,34 @@
             <div class="panel-heading">
                 <h4>Material Sales Orders</h4>
             </div>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Order Date</th>
-                        <th>Materials</th>
-                        <th>Status</th>
-                        @*<th></th>*@
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            <div class="panel-body">
+                <table class="table table-striped table-bordered datatable">
+                    <thead>
                         <tr>
-                            <td>@item.MaterialSalesOrders.OrderDate</td>
-                            <td>@item.MaterialsList</td>
-                            <td>@item.MaterialSalesOrders.MaterialsStatus.StatusName</td>
-                            @*<td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId })
-                            </td>*@
+                            <th>Order Date</th>
+                            <th>Materials</th>
+                            <th>Status</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.MaterialSalesOrders.OrderDate</td>
+                                <td>@item.MaterialsList</td>
+                                <td>@item.MaterialSalesOrders.MaterialsStatus.StatusName</td>
+                                <td>
+                                    @if (item.MaterialSalesOrders.StatusId == 1003)
+                                    {
+                                        @Html.ActionLink("View", "Details", "Procurement", new { id = item.MaterialSalesOrders.MaterialSalesOrdersId }, null)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-

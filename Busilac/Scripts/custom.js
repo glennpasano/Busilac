@@ -150,7 +150,7 @@ $MENU_TOGGLE.on('click', function() {
 
 // Panel toolbox
 $(document).ready(function() {
-    $('.collapse-link').on('click', function() {
+    jQuery('.collapse-link').on('click', function() {
         var $BOX_PANEL = $(this).closest('.x_panel'),
             $ICON = $(this).find('i'),
             $BOX_CONTENT = $BOX_PANEL.find('.x_content');
@@ -168,7 +168,7 @@ $(document).ready(function() {
         $ICON.toggleClass('fa-chevron-up fa-chevron-down');
     });
 
-    $('.close-link').click(function () {
+    jQuery('.close-link').click(function () {
         var $BOX_PANEL = $(this).closest('.x_panel');
 
         $BOX_PANEL.remove();
@@ -178,7 +178,7 @@ $(document).ready(function() {
 
 // Tooltip
 $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({
+    jQuery('[data-toggle="tooltip"]').tooltip({
         container: 'body'
     });
 });
@@ -192,7 +192,7 @@ if ($(".progress .progress-bar")[0]) {
 
 // Switchery
 $(document).ready(function() {
-    if ($(".js-switch")[0]) {
+    if (jQuery(".js-switch")[0]) {
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
         elems.forEach(function (html) {
             var switchery = new Switchery(html, {
@@ -206,7 +206,7 @@ $(document).ready(function() {
 
 // iCheck
 $(document).ready(function() {
-    if ($("input.flat")[0]) {
+    if (jQuery("input.flat")[0]) {
         $(document).ready(function () {
             $('input.flat').iCheck({
                 checkboxClass: 'icheckbox_flat-green',
@@ -273,8 +273,8 @@ function countChecked() {
 
 
 // Accordion
-$(document).ready(function() {
-    $(".expand").on("click", function () {
+jQuery(document).ready(function() {
+    jQuery(".expand").on("click", function () {
         $(this).next().slideToggle(200);
         $expand = $(this).find(">:first-child");
 
@@ -288,11 +288,11 @@ $(document).ready(function() {
 
 // NProgress
 if (typeof NProgress != 'undefined') {
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         NProgress.start();
     });
 
-    $(window).load(function () {
+    jQuery(window).load(function () {
         NProgress.done();
     });
 }

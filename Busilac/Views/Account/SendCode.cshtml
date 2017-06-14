@@ -19,6 +19,64 @@
     </div>
 }
 
+<table width="100%">
+    <tr>
+        <td align="center">
+            <table width="540">
+                <tr>
+                    <td width="540">
+                        <div class="text-center">
+                            <h1><i class="fa fa-truck"></i></h1>
+                            <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                            <p style="margin:0;">National Highway, San Jose, Batangas</p>
+                            <p style="margin:0;">Telephone Nos. 726-2296; 726-2297</p>
+                            <p style="margin:0;">TIN - 001-440-691 Non-Vat</p>
+                            <br />
+                            <h5>PO# {0}</h5>
+                            <h4>PURCHASE ORDER</h4>
+                        </div>
+                        <br />
+                        <h5>
+                            <strong>Date Ordered: {1}</strong> 
+                        </h5>
+                        <h5>
+                            <strong>TO:</strong>
+                        </h5>
+                        <div style="border-bottom: 1px solid #a0a0a0; width: 70%; height: 15px;"></div>
+                        <h5>
+                            <strong>Address:</strong>
+                        </h5>
+                        <div style="border-bottom: 1px solid #a0a0a0; height: 20px;"></div>
+
+                        <br />
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Materials</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {2}
+                                <tr>
+                                    <td colspan="3" class="text-right">Total:</td>
+                                    <td>{3}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

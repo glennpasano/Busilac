@@ -1,0 +1,88 @@
+﻿@model Busilac.ViewModels.MaterialSalesOrderDetailsViewModel
+
+@{
+    ViewBag.Title = "Print";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    decimal pageTotal = 0;
+}
+
+<br />
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <p class="hidden-print">
+            @Html.ActionLink("< Back", "Index", "Procurement", new { @class = "btn btn-default" })
+        </p>
+        <div class="panel panel-default orders-modal">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h1><i class="fa fa-truck"></i></h1>
+                    <h3 style="margin-bottom: 0;">BUSILAC FEEDMILLS, INC.</h3>
+                    <p>National Highway, San Jose, Batangas</p>
+                    <p>Telephone Nos. 726-2296; 726-2297</p>
+                    <p>TIN - 001-440-691 Non-Vat</p>
+                    <br />
+                    <h5>PO# @Model.MaterialSalesOrders.MaterialSalesOrdersId</h5>
+                    <h4>PURCHASE ORDER</h4>
+                </div>
+                <br />
+                <h5>
+                    <strong>Date Ordered:</strong> @Model.MaterialSalesOrders.OrderDate.ToShortDateString()
+                </h5>
+                <h5>
+                    <strong>TO:</strong>
+                </h5>
+                <div style="border-bottom: 1px solid #a0a0a0; width: 70%; height: 15px;"></div>
+                <h5>
+                    <strong>Address:</strong>
+                </h5>
+                <div style="border-bottom: 1px solid #a0a0a0; height: 20px;"></div>
+
+                <br />
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Materials</th>
+                            <th>Weight (kg)</th>
+                            <th>Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.MaterialSalesOrderDetails)
+                        {
+                            var subtotal = item.Weight * item.Price;
+                            pageTotal += subtotal;
+
+                            <tr>
+                                <td>@item.Materials.Name</td>
+                                <td>@item.Weight</td>
+                                <td>@item.Price</td>
+                                <td>@subtotal.ToString("0.00")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="3" class="text-right">Total:</td>
+                            <td>@pageTotal.ToString("0.00")</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>Verified by:</h5>
+                        <div style="border-bottom: 1px solid #a0a0a0; height: 20px;"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Approved by:</h5>
+                        <div style="border-bottom: 1px solid #a0a0a0; height: 20px;"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Check by:</h5>
+                        <div style="border-bottom: 1px solid #a0a0a0; height: 20px;"></div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>

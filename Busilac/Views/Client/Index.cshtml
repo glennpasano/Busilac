@@ -53,6 +53,7 @@
                 <p>Telephone Nos. 726-2296; 726-2297</p>
                 <p>TIN - 001-440-691 Non-Vat</p>
                 <br />
+                <h5>SO# <span id="salesordernumber"></span></h5>
                 <h4>SALES ORDER</h4>
             </div>
             <br />
@@ -79,6 +80,14 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p class="clearfix">
+                        <button id="print" class="btn btn-default">Print</button>
+                        <span id="action-buttons" class="pull-right">
+                            <button id="void" class="btn btn-danger">Void</button>
+                            <button id="fulfill" class="btn btn-primary" style="margin-right: 0;">Fulfill</button>
+                        </span>  
+                    </p>
+                    <br />
                 </div>
             </div>
         </div>
@@ -102,16 +111,25 @@
     $(document).ready(function() {
 
         $('.view-sales-order').on('show.bs.modal', function (event) {
+            $('#action-buttons').show();
+            $('#print').hide();
             var button = $(event.relatedTarget);
             var salesOrderId = button.data('salesorderid');
+            $('#salesordernumber').html(salesOrderId);
 
             $.get('@Url.Action("GetSalesOrder", "Client")' + '?salesOrderId=' + salesOrderId, function (data) {
-
+                console.log(data);
                 $('#order-date').html(data.OrderDateString);
                 $('#client-name').html(data.ProductSalesOrder.ClientName);
                 $('#product-list').html('');
                 var productList = '';
                 var totalAmount = 0;
+
+                if (data.ProductSalesOrder.StatusId == 3) {
+                    $('#action-buttons').hide();
+                    $('#print').show();
+                }
+
                 $.each(data.ProductSalesOrderDetails, function (i, item) {
                     var subTotalAmt = item.Quantity * item.Price;
                     totalAmount += subTotalAmt;
@@ -120,6 +138,21 @@
 
                 $('#product-list').html(productList).append('<tr><td colspan="3" style="text-align: right">Total: </td><td>' + totalAmount.toFixed(2) + '</td></tr>');
             });
+
+            // put data-salesorderid in these 3 buttons
+            $('#print, #fulfill, #void').data('salesorderid', salesOrderId);
+        });
+
+        $('#print').on('click', function () {
+            window.location.href = '@Url.Action("Print", "Client")?id=' + $(this).data('salesorderid');
+        });
+
+        $('#fulfill').on('click', function () {
+            window.location.href = '@Url.Action("Fulfill", "Client")?id=' + $(this).data('salesorderid');
+        });
+
+        $('#void').on('click', function () {
+            window.location.href = '@Url.Action("VoidSales", "Client")?id=' + $(this).data('salesorderid');
         });
 
 

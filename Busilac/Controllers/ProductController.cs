@@ -13,7 +13,7 @@ namespace Busilac.Controllers
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         // GET: Product
         public ActionResult Index()
         {
@@ -30,7 +30,7 @@ namespace Busilac.Controllers
                     product.BuildMaterialsList += string.Format("{0}, ", buildItem.Materials.Name);
                 }
 
-                product.BuildMaterialsList = product.BuildMaterialsList.TrimEnd(',', ' ');
+                product.BuildMaterialsList = product.BuildMaterialsList.Length > 0 ? product.BuildMaterialsList.TrimEnd(',', ' ') : "";
 
                 productList.Add(product);
             }
@@ -46,27 +46,38 @@ namespace Busilac.Controllers
 
             return View(createProductViewModel);
         }
-        
+
         [HttpPost]
         public ActionResult Create(CreateProductsViewModel createProductsViewModel)
         {
-            var product = new Products();
+            if (ModelState.IsValid && createProductsViewModel.ProductBuildMaterials.Any(m => m.Quantity > 0 &&
+                createProductsViewModel.Products.NormalLevelQuantity > createProductsViewModel.Products.CriticalLevelQuantity))
+            {
+                var product = new Products();
 
-            product = createProductsViewModel.Products;
-            db.Products.Add(product);
+                product = createProductsViewModel.Products;
+                db.Products.Add(product);
 
-            foreach (var item in createProductsViewModel.ProductBuildMaterials.Where(m => m.Quantity > 0)) {
-                var pbm = new ProductBuildMaterials();
-                pbm.Products = product;
-                pbm.MaterialId = item.MaterialId;
-                pbm.Quantity = item.Quantity;
+                foreach (var item in createProductsViewModel.ProductBuildMaterials.Where(m => m.Quantity > 0).ToList())
+                {
+                    var pbm = new ProductBuildMaterials()
+                    {
+                        Products = product,
+                        MaterialId = item.MaterialId,
+                        Quantity = item.Quantity
+                    };
+                    db.ProductBuildMaterials.Add(pbm);
+                }
 
-                db.ProductBuildMaterials.Add(pbm);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
 
-            db.SaveChanges();
+            ModelState.AddModelError("error", "Error saving! Please double check inputs. Negative values are not allowed.");
+            createProductsViewModel.MaterialsList = db.Materials.Where(m => m.isVoid == 0).ToList();
 
-            return RedirectToAction("Index");
+            return View(createProductsViewModel);
         }
 
         // Todo: Edit 
@@ -75,7 +86,12 @@ namespace Busilac.Controllers
         {
             var createProductViewModel = new CreateProductsViewModel();
             createProductViewModel.Products = db.Products.Where(m => m.ProductId == id).First();
-            createProductViewModel.ProductBuildMaterials = db.ProductBuildMaterials.Where(m => m.ProductId == id).ToList();
+            createProductViewModel.ProductBuildMaterials = db.ProductBuildMaterials.Where(m => m.ProductId == id)
+                                                               .Select(m => new ProductBuildMaterialViewModel
+                                                               {
+                                                                   Quantity = m.Quantity,
+                                                                   MaterialId = m.MaterialId
+                                                               }).ToList();
             createProductViewModel.MaterialsList = db.Materials.Where(m => m.isVoid == 0).ToList();
 
             return View(createProductViewModel);
@@ -110,7 +126,8 @@ namespace Busilac.Controllers
         {
             List<ProductsInventoryViewModel> inventoryList = db.ProductInventory
                                                                 .GroupBy(m => m.Product)
-                                                                .Select(group => new ProductsInventoryViewModel {
+                                                                .Select(group => new ProductsInventoryViewModel
+                                                                {
                                                                     Products = group.Key,
                                                                     TotalProductCount = group.Sum(x => x.Quantity)
                                                                 }).ToList();

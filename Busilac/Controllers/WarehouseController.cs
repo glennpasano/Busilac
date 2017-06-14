@@ -44,6 +44,7 @@ namespace Busilac.Controllers
             return View(homeViewModel);
         }
 
+
         public ActionResult MaterialSalesOrders()
         {
             var msolvm = new List<MaterialSalesOrdersListViewModel>();
@@ -56,7 +57,7 @@ namespace Busilac.Controllers
 
                 foreach (var detail in db.MaterialsSalesOrdersDetails.Where(m => m.MaterialSalesOrdersId == item.MaterialSalesOrdersId).ToList())
                 {
-                    solvm.MaterialsList += string.Format("{0}({1}), ", detail.Materials.Name, detail.Weight);
+                    solvm.MaterialsList += string.Format("{0}({1}kg), ", detail.Materials.Name, detail.Weight);
                 }
                 solvm.MaterialsList = solvm.MaterialsList.TrimEnd(',', ' ');
 
@@ -248,6 +249,7 @@ namespace Busilac.Controllers
         }
 
         // APIs
+        [AllowAnonymous]
         public JsonResult GetMaterial(int materialId)
         {
             return Json(new
@@ -257,6 +259,7 @@ namespace Busilac.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public JsonResult GetProduct(int productId)
         {
             return Json(new
@@ -267,6 +270,7 @@ namespace Busilac.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public JsonResult GetSuppliers()
         {
             return Json(new
@@ -421,12 +425,15 @@ namespace Busilac.Controllers
             if(newSalesOrdersDetailsList.Any())
             {
                 newSalesOrder.OrderDate = DateTime.Now;
-                newSalesOrder.StatusId = 4; // Status = Follow up.
+                newSalesOrder.StatusId = 1002; // Status = Follow up. Changed to Delivering
+                newSalesOrder.SupplierId = salesOrder.SupplierId;
 
                 db.MaterialsSalesOrders.Add(newSalesOrder);
+
                 foreach (var item in newSalesOrdersDetailsList)
                 {
                     item.MaterialSalesOrders = newSalesOrder;
+                    item.Price = 0;
                     db.MaterialsSalesOrdersDetails.Add(item);
                 }
 

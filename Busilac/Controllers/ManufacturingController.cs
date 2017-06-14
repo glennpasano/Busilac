@@ -46,6 +46,28 @@ namespace Busilac.Controllers
             return View(mvm);
         }
 
+        public ActionResult Details(int id)
+        {
+            var model = new ManufacturingProductionOrderDetailsViewModel()
+            {
+                ProductManufactureOrders = db.ProductManufactureOrders.First(m => m.ProductManufactureOrderId == id),
+                DetailsList = db.ProductManufactureOrderDetails.Where(m => m.ProductManufactureOrderId == id).ToList()
+            };
+
+            return View(model);
+        }
+
+        public ActionResult Print(int id)
+        {
+            var model = new ManufacturingProductionOrderDetailsViewModel()
+            {
+                ProductManufactureOrders = db.ProductManufactureOrders.First(m => m.ProductManufactureOrderId == id),
+                DetailsList = db.ProductManufactureOrderDetails.Where(m => m.ProductManufactureOrderId == id).ToList()
+            };
+
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult Approve(int id)
         {

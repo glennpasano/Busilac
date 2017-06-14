@@ -22,6 +22,10 @@
             margin-bottom: 20px;
             border-bottom: 1px solid;
         }
+
+        .field-validation-error {
+            display: block;
+        }
     </style>
 }
 
@@ -40,7 +44,12 @@
                     <h4>New Product</h4>
                 </div>
                 <div class="panel-body">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <p>
+                            @Html.ValidationMessage("Error", new { @class = "alert alert-danger" })
+                        </p>
+                    }
                     <h4>Product Details</h4>
                     <div class="form-horizontal">
                         <div class="form-group">
@@ -55,6 +64,13 @@
                             <div class="col-md-4">
                                 @Html.TextBoxFor(model => model.Products.CriticalLevelQuantity, new { @class = "form-control", @type = "number", @Value = "0" })
                                 @Html.ValidationMessageFor(model => model.Products.CriticalLevelQuantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Products.NormalLevelQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.Products.NormalLevelQuantity, new { @class = "form-control", @type = "number", @Value = "0" })
+                                @Html.ValidationMessageFor(model => model.Products.NormalLevelQuantity, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         @Html.HiddenFor(model => model.Products.isVoid, htmlAttributes: new { @Value = "0" })
@@ -75,7 +91,10 @@
                                 <tr>
                                     <td>@Model.MaterialsList[i].Name</td>
                                     <td>@Model.MaterialsList[i].Type.TypeName</td>
-                                    <td>@Html.TextBoxFor(model => model.ProductBuildMaterials[i].Quantity, new { @class = "form-control", @type = "number", @Value = "0" })</td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.ProductBuildMaterials[i].Quantity, new { @class = "form-control", @type = "number", @Value = "0" })
+                                        @Html.ValidationMessageFor(model => model.ProductBuildMaterials[i].Quantity, "", new { @class = "text-danger" })
+                                    </td>
                                     @Html.HiddenFor(model => model.ProductBuildMaterials[i].MaterialId, new { @Value = Model.MaterialsList[i].MaterialId })
                                 </tr>
                             }

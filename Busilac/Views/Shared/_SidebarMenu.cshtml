@@ -10,10 +10,12 @@
                     <ul class="nav child_menu">
                         <li>@Html.ActionLink("Manage Materials", "Index", "Materials")</li>
                         <li>@Html.ActionLink("Manage Products", "Index", "Product")</li>
+                        <li>@Html.ActionLink("Manage Users", "ManageUsers", "Account")</li>
                     </ul>
                 </li>
             }
-            @if (User.IsInRole("Procurement") || User.IsInRole("Admin"))
+
+            @*@if (User.IsInRole("Procurement") || User.IsInRole("Admin"))
             {
 
                 <li>
@@ -22,7 +24,8 @@
                         <li>@Html.ActionLink("Purchase Orders", "Index", "Procurement")</li>
                     </ul>
                 </li>
-            }
+            }*@
+
             @if (User.IsInRole("Warehouse") || User.IsInRole("Admin"))
             {
 
@@ -32,6 +35,7 @@
                         <li>@Html.ActionLink("Inventory Overview", "Index", "Warehouse")</li>
                         <li>@Html.ActionLink("Materials Purchases", "MaterialSalesOrders", "Warehouse")</li>
                         <li>@Html.ActionLink("Product Manufacture Orders", "ManageProductionOrders", "Warehouse")</li>
+                        <li>@Html.ActionLink("Purchase Orders", "Index", "Procurement")</li>
                     </ul>
                 </li>
             }

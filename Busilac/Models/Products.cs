@@ -16,8 +16,10 @@ namespace Busilac.Models
         public double Price { get; set; }
         public int isVoid { get; set; }
         [Display(Name = "Critical Level")]
+        [Range(1, 99999999, ErrorMessage = "Must be greater than 0")]
         public int CriticalLevelQuantity { get; set; }
         [Display(Name = "Normal Level")]
+        [Range(1, 99999999, ErrorMessage = "Must be greater than 0")]
         public int NormalLevelQuantity { get; set; }
     }
 
@@ -35,8 +37,12 @@ namespace Busilac.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public int ProductId { get; set; }
+        [Required]
         public int MaterialId { get; set; }
+        [Required]
+        [Range(0, 99999999, ErrorMessage = "Must be greater than 0")]
         public int Quantity { get; set; }
 
         public virtual Products Products { get; set; }

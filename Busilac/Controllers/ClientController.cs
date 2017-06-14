@@ -2,6 +2,7 @@
 using Busilac.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,7 +22,7 @@ namespace Busilac.Controllers
             covm.ProductSalesOrderDetails = new List<ProductSalesOrderDetailsViewModels>();
             covm.MaterialsInventory = new List<MaterialsInventoryViewModel>();
 
-            foreach (var item in db.ProductSalesOrders.Where(m => m.StatusId == 1).ToList())
+            foreach (var item in db.ProductSalesOrders.Where(m => m.StatusId == 1 || m.StatusId == 3).ToList())
             {
                 var co = new ProductSalesOrderDetailsViewModels();
                 co.ProductSalesOrders = item;
@@ -101,9 +102,56 @@ namespace Busilac.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Fulfill(int id)
+        {
+            var pso = db.ProductSalesOrders.First(m => m.ProductSalesOrdersId == id);
+            pso.StatusId = 3;
+
+            db.Entry(pso).State = EntityState.Modified;
+
+            foreach (var item in db.ProductSalesOrderDetails.Where(m => m.ProductSalesOrdersId == id).ToList())
+            {
+                var productInventory = new ProductInventory()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = Math.Abs(item.Quantity) * -1
+                };
+
+                db.ProductInventory.Add(productInventory);
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Print(int id)
+        {
+            var model = new ListProductOrdersViewModel()
+            {
+                ProductSalesOrder = db.ProductSalesOrders.First(m => m.ProductSalesOrdersId == id),
+                ProductSalesOrderDetails = db.ProductSalesOrderDetails.Where(m => m.ProductSalesOrdersId == id).ToList()
+            };
+
+            return View(model);
+        }
+
+        public ActionResult VoidSales(int id)
+        {
+            var pso = db.ProductSalesOrders.First(m => m.ProductSalesOrdersId == id);
+            pso.StatusId = 2;
+
+            db.Entry(pso).State = EntityState.Modified;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         // APIs
 
         [HttpGet]
+        [AllowAnonymous]
         public JsonResult GetInventory()
         {
             var inventory = new List<MaterialsInventoryViewModel>();
@@ -122,6 +170,18 @@ namespace Busilac.Controllers
             }
 
             return Json(inventory, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProducts()
+        {
+            return Json(new
+            {
+                Inventory = db.Products.Select(m => new
+                {
+                    Name = m.Name,
+                    TotalCount = db.ProductInventory.Where(x => x.ProductId == m.ProductId).Sum(x => x.Quantity)
+                }).ToList()
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

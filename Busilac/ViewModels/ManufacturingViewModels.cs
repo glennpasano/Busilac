@@ -17,6 +17,12 @@ namespace Busilac.ViewModels
         public string OrderDateString { get; set; }
     }
 
+    public class ManufacturingProductionOrderDetailsViewModel
+    {
+        public ProductManufactureOrders ProductManufactureOrders { get; set; }
+        public List<ProductManufactureOrderDetails> DetailsList { get; set; }
+    }
+
     public class OrderedProductsViewModel
     {
         public Products Product { get; set; }

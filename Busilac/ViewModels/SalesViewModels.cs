@@ -25,4 +25,10 @@ namespace Busilac.ViewModels
 
         public List<SupplierListViewModel> SupplierList { get; set; }
     }
+
+    public class MaterialSalesOrderDetailsViewModel
+    {
+        public MaterialsSalesOrders MaterialSalesOrders { get; set; }
+        public List<MaterialsSalesOrdersDetails> MaterialSalesOrderDetails { get; set; }
+    }
 }
